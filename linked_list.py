@@ -14,6 +14,15 @@ class LinkedList(object):
             tempNode = Node(value, self.headNode)
             self.headNode = tempNode
 
+    #String representation
+    def __repr__(self):
+        printstr = ""
+        tempNode = self.headNode
+        while tempNode != None:
+            printstr += str(tempNode.value)
+            tempNode = tempNode.next
+        return printstr
+
     #Returns size of linked list
     def size(self):
         size = 0
@@ -25,5 +34,5 @@ class LinkedList(object):
             tempNode = tempNode.next
         return size
 
-
-
+    def display(self):
+         return self
