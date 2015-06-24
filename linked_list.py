@@ -16,11 +16,13 @@ class LinkedList(object):
 
     #String representation
     def __repr__(self):
-        printstr = ""
+        printstr = "("
         tempNode = self.headNode
         while tempNode != None:
-            printstr += str(tempNode.value)
+            # printstr += str(tempNode.value)
+            printstr = "{},{}".format(printstr, tempNode.value)
             tempNode = tempNode.next
+        printstr += ")"
         return printstr
 
     #Returns size of linked list
