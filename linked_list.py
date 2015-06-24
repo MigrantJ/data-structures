@@ -19,8 +19,10 @@ class LinkedList(object):
         printstr = "("
         tempNode = self.headNode
         while tempNode != None:
-            # printstr += str(tempNode.value)
-            printstr = "{},{}".format(printstr, tempNode.value)
+            if printstr != "(":
+                printstr = "{},{}".format(printstr, tempNode.value)
+            else:
+                printstr += str(tempNode.value)
             tempNode = tempNode.next
         printstr += ")"
         return printstr
@@ -36,5 +38,17 @@ class LinkedList(object):
             tempNode = tempNode.next
         return size
 
+    #returns a string representation of all values
     def display(self):
-         return self
+         return str(self)
+
+    #searches to see if value exists, returns node of passed-in value
+    def search(self, value):
+        iterations = self.size()
+        tempNode = self.headNode
+        for x in range(0,iterations):
+            if tempNode.value == value:
+                return tempNode
+            tempNode = tempNode.next
+        return None
+

@@ -1,5 +1,7 @@
+from __future__ import unicode_literals
 import pytest
 from linked_list import LinkedList
+
 list1 = LinkedList([1,2,3,4,5,6,7,8])
 
 def test_const():
