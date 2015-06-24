@@ -36,24 +36,25 @@ def test_pop():
 
 def test_remove():
     tempNode = list1.search(1)
-    assert list1.remove(tempNode)
+    list1.remove(tempNode)
     assert list1.search(1) == None
     assert list1.size() ==  6
     assert list1.display() == "(7,6,5,4,3,2)"
     tempNode = list1.search(7)
-    assert list1.remove(tempNode)
+    list1.remove(tempNode)
     assert list1.search(7) == None
     assert list1.size() ==  5
     assert list1.display() == "(6,5,4,3,2)"
     tempNode = list1.search(4)
-    assert list1.remove(tempNode)
+    list1.remove(tempNode)
     assert list1.search(4) == None
     assert list1.size() ==  4
     assert list1.display() == "(6,5,3,2)"
     tempNode = list1.search(7)
-    assert list1.remove(tempNode)
+    with pytest.raises(ValueError):
+        list1.remove(tempNode)
     assert list1.search(7) == None
-    assert list1.size() ==  5
-    assert list1.display() == "(6,5,4,3,2)"
+    assert list1.size() ==  4
+    assert list1.display() == "(6,5,3,2)"
 
 

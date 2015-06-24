@@ -11,8 +11,7 @@ class LinkedList(object):
     def __init__(self, values):
         self.headNode = None
         for value in values:
-            tempNode = Node(value, self.headNode)
-            self.headNode = tempNode
+            self.insert(value)
 
     #String representation
     def __repr__(self):
@@ -51,4 +50,38 @@ class LinkedList(object):
                 return tempNode
             tempNode = tempNode.next
         return None
+
+    #Insert value at the head of the list
+    def insert(self, value):
+        tempNode = Node(value,self.headNode)
+        self.headNode = tempNode
+
+    #Pops the first value
+    def pop(self):
+        tempNode = self.headNode
+        self.headNode = self.headNode.next
+        tempNode.next = None
+        return tempNode.value
+
+    #remove node based on  given node
+    def remove(self, node):
+        tempNode = self.headNode
+        tempNode2 = self.headNode.next
+        if tempNode == node:
+            self.headNode = self.headNode.next
+            tempNode.next = None
+
+        else:
+            while tempNode2 != None:
+                if tempNode2 == node:
+                    tempNode.next = tempNode2.next
+                    tempNode2.next = None
+                    break
+                else:
+                    tempNode = tempNode.next
+                    tempNode2 = tempNode2.next
+            else:
+                raise ValueError('node not found')
+
+
 
