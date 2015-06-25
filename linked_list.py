@@ -10,10 +10,11 @@ class Node(object):
 
 # Constructor
 class LinkedList(object):
-    def __init__(self, values):
+    def __init__(self, values = None):
         self.headNode = None
-        for value in values:
-            self.insert(value)
+        if values != None:
+            for value in values:
+                self.insert(value)
 
     # String representation
     def __repr__(self):

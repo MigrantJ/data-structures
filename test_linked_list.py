@@ -2,7 +2,9 @@ from __future__ import unicode_literals
 import pytest
 from linked_list import LinkedList
 
+
 list1 = LinkedList([1, 2, 3, 4, "a", 5, 6, 7, 8, "bee"])
+
 
 
 def test_const():
@@ -63,3 +65,12 @@ def test_remove():
     assert list1.search("c") is None
     assert list1.size() == 6
     assert list1.display() == "(8,7,6,5,3,2)"
+
+empList = LinkedList()
+
+def empty_list():
+    empList.insert(6)
+    assert empList.display() == "(5)"
+    assert empList.size() == 1
+    empList.insert("B")
+    assert empList.display() == "(B,5)"
