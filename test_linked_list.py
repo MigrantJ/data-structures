@@ -17,7 +17,7 @@ def test_size():
 
 
 def test_display():
-    assert list1.display() == "(bee,8,7,6,5,a,4,3,2,1)"
+    assert list1.display() == "(u'bee',8,7,6,5,u'a',4,3,2,1)"
 
 
 def test_search():
@@ -29,17 +29,17 @@ def test_search():
 def test_insert():
     assert list1.size() == 10
     list1.insert(5)
-    assert list1.display() == "(5,bee,8,7,6,5,a,4,3,2,1)"
+    assert list1.display() == "(5,u'bee',8,7,6,5,u'a',4,3,2,1)"
     assert list1.size() == 11
 
 
 def test_pop():
     assert list1.pop() == 5
     assert list1.size() == 10
-    assert list1.display() == "(bee,8,7,6,5,a,4,3,2,1)"
-    assert list1.pop() == "bee"
+    assert list1.display() == "(u'bee',8,7,6,5,u'a',4,3,2,1)"
+    assert list1.pop() == u'bee'
     assert list1.size() == 9
-    assert list1.display() == "(8,7,6,5,a,4,3,2,1)"
+    assert list1.display() == "(8,7,6,5,u'a',4,3,2,1)"
 
 
 def test_remove():
@@ -47,7 +47,7 @@ def test_remove():
     list1.remove(tempnode)
     assert list1.search(1) is None
     assert list1.size() == 8
-    assert list1.display() == "(8,7,6,5,a,4,3,2)"
+    assert list1.display() == "(8,7,6,5,u'a',4,3,2)"
     tempnode = list1.search("a")
     list1.remove(tempnode)
     assert list1.search("a") is None
@@ -65,12 +65,11 @@ def test_remove():
     assert list1.size() == 6
     assert list1.display() == "(8,7,6,5,3,2)"
 
-empList = LinkedList()
-
 
 def test_empty_list():
+    empList = LinkedList()
     empList.insert(6)
     assert empList.display() == "(6)"
     assert empList.size() == 1
     empList.insert("B")
-    assert empList.display() == "(B,6)"
+    assert empList.display() == "(u'B',6)"
