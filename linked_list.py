@@ -61,6 +61,8 @@ class LinkedList(object):
 
     # pop the first value
     def pop(self):
+        if self.size() == 0:
+            raise LookupError
         temp_node = self.headNode
         self.headNode = self.headNode.next
         temp_node.next = None
