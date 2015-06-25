@@ -10,7 +10,7 @@ def empty_stack():
 
 @pytest.fixture()
 def full_stack():
-    stack = Stack([1, 2, 3, 'a', 'foobar', None])
+    stack = Stack([1, 2, 'a', 3, None, 'foobar'])
     return stack
 
 
@@ -19,9 +19,33 @@ def test_constructor(empty_stack, full_stack):
     assert isinstance(full_stack, Stack)
 
 
-def test_push():
-    pass
+def test_pop(empty_stack, full_stack):
+    with pytest.raises(LookupError):
+        val = empty_stack.pop()
+
+    val = full_stack.pop()
+    assert val == 'foobar'
+    val = full_stack.pop()
+    assert val is None
+    val = full_stack.pop()
+    assert val == 3
 
 
-def test_pop():
-    pass
+def test_push(empty_stack, full_stack):
+    empty_stack.push(None)
+    empty_stack.push(1)
+    empty_stack.push('two')
+    val = empty_stack.pop()
+    assert val == 'two'
+    val = empty_stack.pop()
+    assert val == 1
+    full_stack.push(3)
+    full_stack.push('four')
+    full_stack.push(True)
+    val = full_stack.pop()
+    assert val is True
+    val = full_stack.pop()
+    assert val == 'four'
+    val = full_stack.pop()
+    assert val == 3
+
