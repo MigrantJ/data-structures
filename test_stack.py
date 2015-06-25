@@ -49,3 +49,15 @@ def test_push(empty_stack, full_stack):
     val = full_stack.pop()
     assert val == 3
 
+
+def test_other_methods(empty_stack):
+    with pytest.raises(AttributeError):
+        print(empty_stack.size())
+    with pytest.raises(AttributeError):
+        print(empty_stack.display())
+    with pytest.raises(AttributeError):
+        empty_stack.search(1)
+    with pytest.raises(AttributeError):
+        empty_stack.insert(2)
+    with pytest.raises(AttributeError):
+        empty_stack.remove(empty_stack.search(1))
