@@ -6,7 +6,6 @@ from linked_list import LinkedList
 list1 = LinkedList([1, 2, 3, 4, "a", 5, 6, 7, 8, "bee"])
 
 
-
 def test_const():
     assert list1.headNode is not None
     assert list1.headNode.value == "bee"
@@ -68,9 +67,10 @@ def test_remove():
 
 empList = LinkedList()
 
-def empty_list():
+
+def test_empty_list():
     empList.insert(6)
-    assert empList.display() == "(5)"
+    assert empList.display() == "(6)"
     assert empList.size() == 1
     empList.insert("B")
-    assert empList.display() == "(B,5)"
+    assert empList.display() == "(B,6)"

@@ -10,9 +10,9 @@ class Node(object):
 
 # Constructor
 class LinkedList(object):
-    def __init__(self, values = None):
+    def __init__(self, values=None):
         self.headNode = None
-        if values != None:
+        if values is not None:
             for value in values:
                 self.insert(value)
 
