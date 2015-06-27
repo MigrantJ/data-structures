@@ -1,5 +1,5 @@
 from stack.stack import Stack
 
 
-def parentical():
+def parens(string):
     pass
