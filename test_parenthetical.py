@@ -18,6 +18,6 @@ def test_parens():
     assert parens(')') == -1
     assert parens('()())') == -1
     assert parens('((()(())())))') == -1
-    assert parens('(a test string)') == 0
-    assert parens('(awerbwrtnw45nwrtn') == 1
-    assert parens('a;;,blk)nqw3po') == -1
+    assert parens('(a tes(t )string)') == 0
+    assert parens('(awerbw(r)tnw45nwrtn') == 1
+    assert parens('a(;;,blk)nqw)3po') == -1
