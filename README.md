@@ -14,3 +14,7 @@ Sample code for a number of classic data structures implemented in Python
 
 ###References
 http://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
+
+
+## parenthetical.parens()
+Return an integer representing whether all open parentheses are closed in order in the provided input.
