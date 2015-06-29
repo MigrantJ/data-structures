@@ -41,15 +41,15 @@ def test_dequeue(empty_queue, full_queue):
 
 def test_enqueue(empty_queue, full_queue):
     empty_queue.enqueue(True)
-    assert empty_queue.dequeue is True
+    assert empty_queue.dequeue() is True
     empty_queue.enqueue(55)
     empty_queue.enqueue('test')
-    assert empty_queue.dequeue == 55
-    assert empty_queue.dequeue == 'test'
+    assert empty_queue.dequeue() == 55
+    assert empty_queue.dequeue() == 'test'
     with pytest.raises(LookupError):
         val = empty_queue.dequeue()
     full_queue.enqueue(6)
-    assert full_queue.dequeue == 'a'
+    assert full_queue.dequeue() == 'a'
 
 
 def test_size(empty_queue, full_queue):
