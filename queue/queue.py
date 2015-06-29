@@ -10,33 +10,33 @@ class Node(object):
 
 # Constructor
 class Queue(object):
-    def __init__(self, values=None):
+    def __init__(self):
         self.headNode = None
         self.tailNode = None
 
     def enqueue(self, value):
-        tempNode = Node(value)
+        tempnode = Node(value)
         if self.size() == 0:
-            self.headNode = tempNode
-            self.tailNode = tempNode
+            self.headNode = tempnode
+            self.tailNode = tempnode
         else:
-            tempNode.next = self.headNode
-            self.headNode = tempNode
+            tempnode.next = self.headNode
+            self.headNode = tempnode
 
     def dequeue(self):
-        tempNode = self.headNode
+        tempnode = self.headNode
         if self.size() == 0:
             raise LookupError
-        returnVal = self.tailNode.value
-        if tempNode.next == None:
+        returnval = self.tailNode.value
+        if tempnode.next is None:
             self.headNode = None
             self.tailNode = None
         else:
-            while (tempNode.next.next != None):
-                tempNode = tempNode.next
-            tempNode.next = None
-            self.tailNode = tempNode
-        return returnVal
+            while tempnode.next.next is not None:
+                tempnode = tempnode.next
+            tempnode.next = None
+            self.tailNode = tempnode
+        return returnval
 
     def __repr__(self):
         printstr = "("
@@ -54,11 +54,9 @@ class Queue(object):
     def size(self):
         size = 0
         # sets temporary pointer on current head node
-        tempNode = self.headNode
-        while tempNode is not None:
+        tempnode = self.headNode
+        while tempnode is not None:
             size += 1
             # iterate through head node
-            tempNode = tempNode.next
+            tempnode = tempnode.next
         return size
-
-
