@@ -27,11 +27,15 @@ class Queue(object):
         tempNode = self.headNode
         if self.size() == 0:
             raise LookupError
-        while (tempNode.next != None):
-            tempNode = tempNode.next
         returnVal = self.tailNode.value
-        tempNode.next = None
-        self.tailNode = tempNode
+        if tempNode.next == None:
+            self.headNode = None
+            self.tailNode = None
+        else:
+            while (tempNode.next.next != None):
+                tempNode = tempNode.next
+            tempNode.next = None
+            self.tailNode = tempNode
         return returnVal
 
     def __repr__(self):
