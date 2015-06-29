@@ -2,6 +2,13 @@ from __future__ import unicode_literals
 import pytest
 from queue import Queue
 
+test_values = [
+    1,
+    None,
+    'two',
+    [3, 4, 5]
+]
+
 @pytest.fixture()
 def empty_queue():
     queue = Queue()
@@ -10,10 +17,8 @@ def empty_queue():
 @pytest.fixture()
 def full_queue():
     queue = Queue()
-    queue.enqueue(1)
-    queue.enqueue(None)
-    queue.enqueue('two')
-    queue.enqueue([3, 4, 5])
+    for val in test_values:
+        queue.enqueue(val)
 
 
 def test_constructor(empty_queue):
@@ -31,8 +36,17 @@ def test_dequeue(empty_queue, full_queue):
         val = full_queue.dequeue()
 
 
-def test_enqueue():
-    pass
+def test_enqueue(empty_queue, full_queue):
+    empty_queue.enqueue(True)
+    assert empty_queue.dequeue is True
+    empty_queue.enqueue(55)
+    empty_queue.enqueue('test')
+    assert empty_queue.dequeue == 55
+    assert empty_queue.dequeue == 'test'
+    with pytest.raises(LookupError):
+        val = empty_queue.dequeue()
+    full_queue.enqueue(6)
+    assert full_queue.dequeue == 1
 
 
 def test_size():
