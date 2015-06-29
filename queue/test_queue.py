@@ -3,10 +3,10 @@ import pytest
 from queue import Queue
 
 test_values = [
-    1,
-    None,
-    'two',
-    [3, 4, 5]
+    'a',
+    'b',
+    'c',
+    'd'
 ]
 
 @pytest.fixture()
@@ -29,10 +29,10 @@ def test_constructor(empty_queue):
 def test_dequeue(empty_queue, full_queue):
     with pytest.raises(LookupError):
         val = empty_queue.dequeue()
-    assert full_queue.dequeue() == 1
-    assert full_queue.dequeue() is None
-    assert full_queue.dequeue() == 'two'
-    assert full_queue.dequeue() == [3, 4, 5]
+    assert full_queue.dequeue() == 'a'
+    assert full_queue.dequeue() == 'b'
+    assert full_queue.dequeue() == 'c'
+    assert full_queue.dequeue() == 'd'
     with pytest.raises(LookupError):
         val = full_queue.dequeue()
 
@@ -47,7 +47,7 @@ def test_enqueue(empty_queue, full_queue):
     with pytest.raises(LookupError):
         val = empty_queue.dequeue()
     full_queue.enqueue(6)
-    assert full_queue.dequeue == 1
+    assert full_queue.dequeue == 'a'
 
 
 def test_size(empty_queue, full_queue):
@@ -55,6 +55,6 @@ def test_size(empty_queue, full_queue):
     assert full_queue.size() == len(test_values)
     empty_queue.enqueue('a thing')
     assert empty_queue.size() == 1
-    full_queue.dequeue()
-    full_queue.dequeue()
+    assert full_queue.dequeue() == 'a'
+    assert full_queue.dequeue() == 'b'
     assert full_queue.size() == len(test_values) - 2
