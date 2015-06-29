@@ -17,8 +17,10 @@ def empty_queue():
 @pytest.fixture()
 def full_queue():
     queue = Queue()
-    for val in test_values:
-        queue.enqueue(val)
+    queue.enqueue('a')
+    queue.enqueue('b')
+    queue.enqueue('c')
+    queue.enqueue('d')
     return queue
 
 

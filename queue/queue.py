@@ -20,8 +20,8 @@ class Queue(object):
             self.headNode = tempNode
             self.tailNode = tempNode
         else:
-            self.tailNode.next = tempNode
-            self.tailNode = tempNode
+            tempNode.next = self.headNode
+            self.headNode = tempNode
 
     def dequeue(self):
         tempNode = self.headNode
