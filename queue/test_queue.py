@@ -19,6 +19,7 @@ def full_queue():
     queue = Queue()
     for val in test_values:
         queue.enqueue(val)
+    return queue
 
 
 def test_constructor(empty_queue):
