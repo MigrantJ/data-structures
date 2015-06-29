@@ -49,5 +49,11 @@ def test_enqueue(empty_queue, full_queue):
     assert full_queue.dequeue == 1
 
 
-def test_size():
-    pass
+def test_size(empty_queue, full_queue):
+    assert empty_queue.size() == 0
+    assert full_queue.size() == len(test_values)
+    empty_queue.enqueue('a thing')
+    assert empty_queue.size() == 1
+    full_queue.dequeue()
+    full_queue.dequeue()
+    assert full_queue.size() == len(test_values) - 2
