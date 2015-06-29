@@ -16,12 +16,19 @@ def full_queue():
     queue.enqueue([3, 4, 5])
 
 
-def test_constructor():
-    pass
+def test_constructor(empty_queue):
+    assert isinstance(empty_queue, Queue)
 
 
-def test_dequeue():
-    pass
+def test_dequeue(empty_queue, full_queue):
+    with pytest.raises(LookupError):
+        val = empty_queue.dequeue()
+    assert full_queue.dequeue() == 1
+    assert full_queue.dequeue() is None
+    assert full_queue.dequeue() == 'two'
+    assert full_queue.dequeue() == [3, 4, 5]
+    with pytest.raises(LookupError):
+        val = full_queue.dequeue()
 
 
 def test_enqueue():
