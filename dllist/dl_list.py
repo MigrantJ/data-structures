@@ -28,6 +28,8 @@ class DLList(object):
             temp = self.head_node
             temp.prev = node
             node.next = temp
+        else:
+            self.tail_node = node
         self.head_node = node
 
     def append(self, val):
@@ -36,7 +38,8 @@ class DLList(object):
             temp = self.tail_node
             temp.next = node
             node.prev = temp
-
+        else:
+            self.head_node = node
         self.tail_node = node
 
     def pop(self):
