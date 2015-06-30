@@ -39,7 +39,12 @@ class DLList(object):
         return temp.value
 
     def shift(self):
-        pass
+        if not self.tail_node:
+            raise LookupError
+        temp = self.tail_node
+        self.tail_node = self.tail_node.prev
+        self.tail_node.next = None
+        return temp.value
 
     def remove(self, val):
         pass
