@@ -14,12 +14,20 @@ class DLList(object):
         self.head_node = None
         self.tail_node = None
 
+    def __repr__(self):
+        current = self.head_node
+        accum = []
+        while current is not None:
+            accum.append(unicode(current.value))
+            current = current.next
+        return ' | '.join(accum)
+
     def insert(self, val):
         node = DLNode(val, next=self.head_node)
         if self.head_node:
             temp = self.head_node
             temp.prev = node
-
+            node.next = temp
         self.head_node = node
 
     def append(self, val):
@@ -27,6 +35,7 @@ class DLList(object):
         if self.tail_node:
             temp = self.tail_node
             temp.next = node
+            node.prev = temp
 
         self.tail_node = node
 
