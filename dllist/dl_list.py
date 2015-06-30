@@ -44,7 +44,7 @@ class DLList(object):
 
     def pop(self):
         if not self.head_node:
-            raise LookupError
+            raise LookupError('List is empty')
         temp = self.head_node
         self.head_node = self.head_node.next
         self.head_node.prev = None
@@ -52,11 +52,18 @@ class DLList(object):
 
     def shift(self):
         if not self.tail_node:
-            raise LookupError
+            raise LookupError('List is empty')
         temp = self.tail_node
         self.tail_node = self.tail_node.prev
         self.tail_node.next = None
         return temp.value
 
     def remove(self, val):
-        pass
+        current = self.head_node
+        while current is not None:
+            if current.value == val:
+                break
+            current = current.next
+        else:
+            raise ValueError('{} not found'.format(val))
+        return current.value
