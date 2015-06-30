@@ -65,8 +65,14 @@ class DLList(object):
         current = self.head_node
         while current is not None:
             if current.value == val:
+                if current is self.head_node:
+                    self.pop()
+                elif current is self.tail_node:
+                    self.shift()
+                else:
+                    current.prev.next = current.next
+                    current.next.prev = current.prev
                 break
             current = current.next
         else:
             raise ValueError('{} not found'.format(val))
-        return current.value
