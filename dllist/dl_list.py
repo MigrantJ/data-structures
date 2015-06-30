@@ -10,9 +10,12 @@ class DLNode(object):
 
 
 class DLList(object):
-    def __init__(self):
+    def __init__(self, iterable=None):
         self.head_node = None
         self.tail_node = None
+        if iterable:
+            for val in iterable:
+                self.append(val)
 
     def __repr__(self):
         current = self.head_node
