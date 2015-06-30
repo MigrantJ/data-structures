@@ -31,7 +31,12 @@ class DLList(object):
         self.tail_node = node
 
     def pop(self):
-        pass
+        if not self.head_node:
+            raise LookupError
+        temp = self.head_node
+        self.head_node = self.head_node.next
+        self.head_node.prev = None
+        return temp.value
 
     def shift(self):
         pass
