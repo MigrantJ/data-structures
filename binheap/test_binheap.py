@@ -16,12 +16,14 @@ def empty_heap():
 
 
 def helper(testHeap):
-    for number in (len(testHeap)/2):
-        if BinHeap[number] < BinHeap[(2*number + 1)]:
-            return False
-        if BinHeap[number] < BinHeap[(2*number + 1)]:
-            return False
-    return True
+    for number in testHeap:
+        try:
+            if BinHeap[number] < BinHeap[(2*number + 1)]:
+                return False
+            if BinHeap[number] < BinHeap[(2*number + 1)]:
+                return False
+        except IndexError:
+            return True
 
 
 def test_push(full_heap, empty_heap):
