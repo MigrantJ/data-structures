@@ -5,13 +5,19 @@ from __future__ import unicode_literals
 class BinHeap(object):
     """Implementation of a min binary heap."""
     def __init__(self, iterable=None):
-        self.tree = list(iterable) if iterable else []
+        self.tree = []
+        if iterable is not None:
+            for val in iterable:
+                self.push(val)
 
     def __repr__(self):
         return repr(self.tree)
 
     def __len__(self):
         return len(self.tree)
+
+    def __iter__(self):
+        return iter(self.tree)
 
     def swap(self, i1, i2):
         self.tree[i1], self.tree[i2] = self.tree[i2], self.tree[i1]
