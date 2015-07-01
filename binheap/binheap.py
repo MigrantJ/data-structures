@@ -27,6 +27,7 @@ class BinHeap(object):
         self.tree[i1], self.tree[i2] = self.tree[i2], self.tree[i1]
 
     def sort_down(self, p_index):
+        p_val = self.tree[p_index]
         lc_index = p_index * 2 + 1
         rc_index = lc_index + 1
 
@@ -35,17 +36,18 @@ class BinHeap(object):
             try:
                 rc_val = self.tree[rc_index]
             except IndexError:
-                self.swap(p_index, lc_index)
-                return
+                if lc_val < p_val:
+                    self.swap(p_index, lc_index)
             else:
-                if self.tree[lc_index] <= self.tree[rc_index]:
+                if lc_val < p_val and lc_val <= rc_val:
                     self.swap(p_index, lc_index)
                     self.sort_down(lc_index)
-                elif self.tree[lc_index] > self.tree[rc_index]:
+                elif rc_val < p_val and lc_val > rc_val:
                     self.swap(p_index, rc_index)
                     self.sort_down(rc_index)
         except IndexError:
-            return
+            pass
+        return
 
     def sort_up(self, c_index):
         p_index = (max(0, c_index - 1)) // 2
