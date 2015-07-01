@@ -17,7 +17,11 @@ class BinHeap(object):
         return len(self.tree)
 
     def __iter__(self):
-        return iter(self.tree)
+        for val in self.tree:
+            yield val
+
+    def __getitem__(self, item):
+        return self.tree[item]
 
     def swap(self, i1, i2):
         self.tree[i1], self.tree[i2] = self.tree[i2], self.tree[i1]
