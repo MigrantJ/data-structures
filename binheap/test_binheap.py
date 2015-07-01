@@ -18,9 +18,9 @@ def empty_heap():
 def helper(testHeap):
     for number in testHeap:
         try:
-            if testHeap[number] < testHeap[(2*number + 1)]:
+            if testHeap[number] > testHeap[(2*number + 1)]:
                 return False
-            if testHeap[number] < testHeap[(2*number + 1)]:
+            if testHeap[number] > testHeap[(2*number + 2)]:
                 return False
         except IndexError:
             return True
