@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 
 class BinHeap(object):
     """Implementation of a min binary heap."""
-    def __init__(self):
-        self.tree = []
+    def __init__(self, iterable=None):
+        self.tree = list(iterable) if iterable else []
 
     def __repr__(self):
         return repr(self.tree)
