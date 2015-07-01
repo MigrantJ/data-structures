@@ -28,9 +28,7 @@ class DLList(object):
     def insert(self, val):
         node = DLNode(val, next=self.head_node)
         if self.head_node:
-            temp = self.head_node
-            temp.prev = node
-            node.next = temp
+            self.head_node.prev = node
         else:
             self.tail_node = node
         self.head_node = node
@@ -38,9 +36,7 @@ class DLList(object):
     def append(self, val):
         node = DLNode(val, prev=self.tail_node)
         if self.tail_node:
-            temp = self.tail_node
-            temp.next = node
-            node.prev = temp
+            self.tail_node.next = node
         else:
             self.head_node = node
         self.tail_node = node
