@@ -10,6 +10,9 @@ class BinHeap(object):
     def __repr__(self):
         return repr(self.tree)
 
+    def __len__(self):
+        return len(self.tree)
+
     def swap(self, i1, i2):
         self.tree[i1], self.tree[i2] = self.tree[i2], self.tree[i1]
 
