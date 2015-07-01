@@ -17,10 +17,20 @@ class BinHeap(object):
         lc_index = p_index * 2 + 1
         rc_index = lc_index + 1
 
-        if lc_index < rc_index:
-            print "hi"
+        print("Parent Index: " + str(p_index))
+        print("Left Child Index: " + str(lc_index))
+        print("Right Child Index: " + str(rc_index))
+        print("--------")
 
-        return 0
+        try:
+            if self.tree[lc_index] <= self.tree[rc_index]:
+                self.swap(p_index, lc_index)
+                self.sort_down(lc_index)
+            elif self.tree[lc_index] > self.tree[rc_index]:
+                self.swap(p_index, rc_index)
+                self.sort_down(rc_index)
+        except IndexError:
+            return
 
     def sort_up(self, c_index):
         p_index = (max(0, c_index - 1)) // 2
