@@ -27,11 +27,11 @@ class BinHeap(object):
         self.tree[i1], self.tree[i2] = self.tree[i2], self.tree[i1]
 
     def sort_down(self, p_index):
-        p_val = self.tree[p_index]
-        lc_index = p_index * 2 + 1
-        rc_index = lc_index + 1
-
         try:
+            p_val = self.tree[p_index]
+            lc_index = p_index * 2 + 1
+            rc_index = lc_index + 1
+
             lc_val = self.tree[lc_index]
             try:
                 rc_val = self.tree[rc_index]
