@@ -5,7 +5,7 @@ from binheap import BinHeap
 
 @pytest.fixture()
 def full_heap():
-    fullheap = BinHeap([2, 20, 25, 20, 5, 87.0, 33, 1046, 11.6, 0, 3, 6])
+    fullheap = BinHeap([-1, 20, 25, 20, 5, 87.0, 33, 1046, 11.6, 0, 3, 6])
     return fullheap
 
 
@@ -16,10 +16,12 @@ def empty_heap():
 
 
 def helper(testHeap):
-    for number in testHeap:
+    for number in range(len(testHeap)):
         try:
+            #First Child
             if testHeap[number] > testHeap[(2*number + 1)]:
                 return False
+            #Second Child
             if testHeap[number] > testHeap[(2*number + 2)]:
                 return False
         except IndexError:
