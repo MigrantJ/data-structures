@@ -8,13 +8,16 @@ class BinHeap(object):
         self.tree = []
 
     def __repr__(self):
-        print self.tree
+        return repr(self.tree)
 
-    def sort_up(self, index):
-        p_index = (index - 1) // 2
+    def sort_up(self, c_index):
+        p_index = (max(0, c_index - 1)) // 2
+        # print("Parent Index: " + str(p_index))
+        # print("Child Index: " + str(c_index))
 
-        if self.tree[index] < self.tree[p_index]:
-            self.tree[p_index], self.tree[index] = self.tree[index], self.tree[p_index]
+        if self.tree[c_index] < self.tree[p_index]:
+            # print("------")
+            self.tree[p_index], self.tree[c_index] = self.tree[c_index], self.tree[p_index]
             self.sort_up(p_index)
 
     def push(self, val):
