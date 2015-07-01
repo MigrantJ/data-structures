@@ -47,6 +47,8 @@ class BinHeap(object):
 
     def pop(self):
         last = len(self.tree) - 1
+        if last == -1:
+            raise LookupError('Empty binheap')
         self.swap(0, last)
         val = self.tree.pop()
         self.sort_down(0)
