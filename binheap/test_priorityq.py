@@ -1,26 +1,24 @@
 from __future__ import unicode_literals
-
 import pytest
-
-from binheap.priorityq import PriorityQ
+from priorityq import Priorityq
 
 
 @pytest.fixture()
 def empty_q():
-    return PriorityQ()
+    return Priorityq()
 
 
 @pytest.fixture()
 def full_q():
-    q = PriorityQ()
+    q = Priorityq()
     # values are the order we expect to receive them in when we pop
-    q.push(3, 3)
-    q.push(0, 0)
-    q.push(2, 2)
-    q.push(6, 10)
-    q.push(4, 3)
-    q.push(5, 5)
-    q.push(1, 0)
+    q.insert(3, 3)
+    q.insert(0, 0)
+    q.insert(2, 2)
+    q.insert(10, 6)
+    q.insert(3, 4)
+    q.insert(5, 5)
+    q.insert(0, 1)
     return q
 
 
@@ -29,6 +27,32 @@ def test_pop_empty(empty_q):
         empty_q.pop()
 
 
-def test_pop_full(full_q):
-    for i in xrange(0, 7):
-        assert full_q.pop() == i
+def test_insert_and_pop_once(empty_q):
+    empty_q.insert(1, 1)
+    assert empty_q.pop() == 1
+    empty_q.insert(0, 2)
+    assert empty_q.pop() == 2
+
+
+def test_priority(empty_q):
+    empty_q.insert(100, 0)
+    empty_q.insert(1, 2)
+    assert empty_q.pop() == 2
+
+
+def test_equal_priority(empty_q):
+    empty_q.insert(0, 0)
+    empty_q.insert(0, 1)
+    empty_q.insert(0, 2)
+    assert empty_q.pop() == 0
+    assert empty_q.pop() == 1
+    assert empty_q.pop() == 2
+
+
+def test_odd_values(empty_q):
+    empty_q.insert(0, None)
+    empty_q.insert(1, 'One')
+    empty_q.insert(2, [2, 3])
+    assert empty_q.pop() is None
+    assert empty_q.pop() == 'One'
+    assert empty_q.pop() == [2, 3]

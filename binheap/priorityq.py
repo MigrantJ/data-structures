@@ -21,7 +21,7 @@ class Priorityq(object):
 
     def insert(self, priority, val):
         new_node = Node(priority, val)
-        self.binheap.insert(new_node)
+        self.binheap.push(new_node)
 
     def pop(self):
         return_node = self.binheap.pop()
