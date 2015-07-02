@@ -73,3 +73,14 @@ def test_peek(empty_q):
 def test_peek_empty(empty_q):
     with pytest.raises(LookupError):
         empty_q.peek()
+
+
+def test_peek_priority(empty_q):
+    empty_q.insert(1, 'med pri')
+    assert empty_q.peek() == 'med pri'
+    empty_q.insert(0, 'high pri')
+    assert empty_q.peek() == 'high pri'
+    empty_q.insert(2, 'low pri')
+    assert empty_q.peek() == 'high pri'
+    empty_q.pop()
+    assert empty_q.peek() == 'med pri'
