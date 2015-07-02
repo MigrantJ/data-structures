@@ -44,6 +44,7 @@ def test_equal_priority(empty_q):
     empty_q.insert(0, 0)
     empty_q.insert(0, 1)
     empty_q.insert(0, 2)
+    import pdb; pdb.set_trace()
     assert empty_q.pop() == 0
     assert empty_q.pop() == 1
     assert empty_q.pop() == 2
