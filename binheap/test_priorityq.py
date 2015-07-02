@@ -62,3 +62,14 @@ def test_full_pop(empty_q):
 
     for i in range(0, 7):
         assert empty_q.pop() == i
+
+
+def test_peek(empty_q):
+    empty_q.insert(1, 'hello')
+    assert empty_q.peek() == 'hello'
+    assert empty_q.peek() == 'hello'
+
+
+def test_peek_empty(empty_q):
+    with pytest.raises(LookupError):
+        empty_q.peek()
