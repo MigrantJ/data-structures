@@ -38,4 +38,4 @@ class Priorityq(object):
         return return_node.val
 
     def peek(self):
-        return self.binheap[0]
+        return self.binheap[0].val
