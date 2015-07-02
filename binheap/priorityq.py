@@ -8,6 +8,9 @@ class Node(object):
         self.priority = priority
         self.val = val
 
+    def __repr__(self):
+        return 'Pri: ' + repr(self.priority) + ' Val: ' + repr(self.val)
+
     def __eq__(self, other):
         return self.priority == other.priority
 
