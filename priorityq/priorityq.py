@@ -24,7 +24,9 @@ class Priorityq(object):
         self.binheap.insert(new_node)
 
     def pop(self):
-        return self.binheap.pop()
+        return_node = self.binheap.pop()
+        return return_node.val
 
-    def peak(self):
-        return self.binheap[0]
+    def peek(self):
+        return_node = self.binheap.pop()
+        return return_node.val
