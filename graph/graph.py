@@ -24,7 +24,11 @@ class Graph(object):
         return [k for k in self._data.iterkeys()]
 
     def edges(self):
-        pass
+        edgelist = []
+        for node, others in self._data.iteritems():
+            for o in others:
+                edgelist.append((node, o))
+        return edgelist
 
     def add_node(self, n):
         self._data[n] = []
@@ -43,13 +47,14 @@ class Graph(object):
         del self._data[n]
 
     def del_edge(self, n1, n2):
-        pass
+        i = self._data[n1].index(n2)
+        del self._data[n1][i]
 
     def has_node(self, n):
         return n in self._data
 
     def neighbors(self, n):
-        pass
+        return self._data[n]
 
     def adjacent(self, n1, n2):
-        pass
+        return n2 in self._data[n1]
