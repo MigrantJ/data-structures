@@ -21,16 +21,23 @@ class Graph(object):
         return '\n'.join(rep)
 
     def nodes(self):
-        pass
+        return [k for k in self._data.iterkeys()]
 
     def edges(self):
         pass
 
-    def add_node(self, value):
-        self._data[Node(value)] = []
+    def add_node(self, n):
+        self._data[n] = []
 
     def add_edge(self, n1, n2):
-        pass
+        if not self.has_node(n1):
+            self.add_node(n1)
+
+        if not self.has_node(n2):
+            self.add_node(n2)
+
+        if n2 not in self._data[n1]:
+            self._data[n1].append(n2)
 
     def del_node(self, n):
         del self._data[n]
@@ -39,7 +46,7 @@ class Graph(object):
         pass
 
     def has_node(self, n):
-        pass
+        return n in self._data
 
     def neighbors(self, n):
         pass
