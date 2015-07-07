@@ -37,7 +37,7 @@ class Graph(object):
 
     def add_node(self, n):
         """Add a new node 'n' to the graph. n must be an instance of Node."""
-        self._data[n] = []
+        self._data[n] = set()
 
     def add_edge(self, n1, n2):
         """Add a new edge to the graph connecting n1 to n2. n1 and n2 must be
@@ -49,21 +49,21 @@ class Graph(object):
         if not self.has_node(n2):
             self.add_node(n2)
 
-        if n2 not in self._data[n1]:
-            self._data[n1].append(n2)
+        self._data[n1].add(n2)
 
     def del_node(self, n):
         """Delete node n from the graph. If no such node exists, raise
         KeyError.
         """
+        for node, e in self._data.iteritems():
+            e.discard(n)
         del self._data[n]
 
     def del_edge(self, n1, n2):
         """Delete the edge connecting n1 to n2. If n1 does not exist in the
-        graph, raise KeyError. If n1 is not connected to n2, raise ValueError.
+        graph, raise KeyError. If n1 is not connected to n2, raise KeyError.
         """
-        i = self._data[n1].index(n2)
-        del self._data[n1][i]
+        self._data[n1].remove(n2)
 
     def has_node(self, n):
         """Return True if node n is in the graph, False if not."""
