@@ -7,7 +7,7 @@ class Node(object):
         self.value = value
 
     def __repr__(self):
-        return repr(self.value)
+        return 'Node: ' + repr(self.value)
 
 
 class Graph(object):
@@ -37,7 +37,7 @@ class Graph(object):
 
     def add_node(self, n):
         """Add a new node 'n' to the graph. n must be an instance of Node."""
-        self._data[n] = set()
+        self._data.setdefault(n, set())
 
     def add_edge(self, n1, n2):
         """Add a new edge to the graph connecting n1 to n2. n1 and n2 must be
