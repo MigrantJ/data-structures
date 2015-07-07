@@ -77,4 +77,6 @@ class Graph(object):
         """Return True if an edge connects n1 to n2, return False if not.
         If n1 or n2 is not in the graph, raise KeyError.
         """
+        if n2 not in self._data:
+            raise KeyError
         return n2 in self._data[n1]
