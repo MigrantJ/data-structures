@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-from __future__ import unicode_literals
-import pytest
-from graph import Graph
-=======
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 
@@ -83,4 +77,3 @@ class Graph(object):
         If n1 or n2 is not in the graph, raise KeyError.
         """
         return n2 in self._data[n1]
->>>>>>> 3bc11e51d0d1da5629ecf8233a7d99b19d0a66c0
