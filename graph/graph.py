@@ -7,7 +7,7 @@ class Node(object):
         self.value = value
 
     def __repr__(self):
-        return 'Node: ' + repr(self.value)
+        return repr(self.value)
 
 
 class Graph(object):
