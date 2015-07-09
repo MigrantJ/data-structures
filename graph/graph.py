@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from queue import Queue
 
 
 class Node(object):
@@ -77,3 +78,28 @@ class Graph(object):
         If n1 or n2 is not in the graph, raise KeyError.
         """
         return n2 in self._data[n1]
+
+    def depth_first_traversal(self, start, return_set=[]):
+        neighbors = self.neighbors(start).copy()
+        temp_node = start
+        if temp_node not in return_set:
+                return_set.append(temp_node)
+        while neighbors:
+            temp_node = neighbors.pop()
+            if temp_node not in return_set:
+                self.depth_first_traversal(temp_node, return_set)
+        return return_set
+
+    def breadth_first_traversal(self, start, return_set=[]):
+        temp_queue = Queue()
+        temp_node = start
+        neighbors = self.neighbors(start).copy()
+        while neighbors:
+            if temp_node not in return_set:
+                return_set.append(temp_node)
+                temp_queue.enqueue(temp_node)
+            temp_node = neighbors.pop()
+        while temp_queue:
+            temp_node = temp_queue.dequeue()
+            self.breadth_first_traversal(temp_node, return_set)
+        return return_set
