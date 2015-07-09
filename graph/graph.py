@@ -99,7 +99,7 @@ class Graph(object):
                 return_set.append(temp_node)
                 temp_queue.enqueue(temp_node)
             temp_node = neighbors.pop()
-        while temp_queue:
+        while temp_queue.size() != 0:
             temp_node = temp_queue.dequeue()
             self.breadth_first_traversal(temp_node, return_set)
         return return_set
