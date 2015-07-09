@@ -92,13 +92,14 @@ class Graph(object):
 
     def breadth_first_traversal(self, start, return_set=[]):
         temp_queue = Queue()
-        temp_node = start
+        if start not in return_set:
+            return_set.append(start)
         neighbors = self.neighbors(start).copy()
         while neighbors:
+            temp_node = neighbors.pop()
             if temp_node not in return_set:
                 return_set.append(temp_node)
                 temp_queue.enqueue(temp_node)
-            temp_node = neighbors.pop()
         while temp_queue.size() != 0:
             temp_node = temp_queue.dequeue()
             self.breadth_first_traversal(temp_node, return_set)
