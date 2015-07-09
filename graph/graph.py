@@ -82,12 +82,10 @@ class Graph(object):
     def depth_first_traversal(self, start, return_set=None):
         if return_set is None:
             return_set = []
-        neighbors = self.neighbors(start).copy()
         temp_node = start
         if temp_node not in return_set:
             return_set.append(temp_node)
-        while neighbors:
-            temp_node = neighbors.pop()
+        for temp_node in self.neighbors(start):
             if temp_node not in return_set:
                 self.depth_first_traversal(temp_node, return_set)
         return return_set
@@ -98,9 +96,7 @@ class Graph(object):
         temp_queue = Queue()
         if start not in return_set:
             return_set.append(start)
-        neighbors = self.neighbors(start).copy()
-        while neighbors:
-            temp_node = neighbors.pop()
+        for temp_node in self.neighbors(start):
             if temp_node not in return_set:
                 return_set.append(temp_node)
                 temp_queue.enqueue(temp_node)

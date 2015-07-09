@@ -31,7 +31,6 @@ def linear_graph(temp_nodes, empty_graph):
         if prev is not None:
             empty_graph.add_edge(prev, node)
         prev = node
-    import pdb; pdb.set_trace()
     return empty_graph
 
 
