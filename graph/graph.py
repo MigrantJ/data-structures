@@ -79,7 +79,9 @@ class Graph(object):
         """
         return n2 in self._data[n1]
 
-    def depth_first_traversal(self, start, return_set=[]):
+    def depth_first_traversal(self, start, return_set=None):
+        if return_set is None:
+            return_set = []
         neighbors = self.neighbors(start).copy()
         temp_node = start
         if temp_node not in return_set:
@@ -90,7 +92,9 @@ class Graph(object):
                 self.depth_first_traversal(temp_node, return_set)
         return return_set
 
-    def breadth_first_traversal(self, start, return_set=[]):
+    def breadth_first_traversal(self, start, return_set=None):
+        if return_set is None:
+            return_set = []
         temp_queue = Queue()
         if start not in return_set:
             return_set.append(start)
