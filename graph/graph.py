@@ -83,7 +83,7 @@ class Graph(object):
         neighbors = self.neighbors(start).copy()
         temp_node = start
         if temp_node not in return_set:
-                return_set.append(temp_node)
+            return_set.append(temp_node)
         while neighbors:
             temp_node = neighbors.pop()
             if temp_node not in return_set:
