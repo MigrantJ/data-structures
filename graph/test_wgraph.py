@@ -108,29 +108,18 @@ def test_delnode(graph_nodes, temp_nodes):
         graph_nodes.del_node(temp_nodes[0])
 
 
-def xtest_add_edge(graph_nodes, temp_nodes):
-    graph_nodes.add_edge(temp_nodes[0], temp_nodes[1], 1)
-    graph_nodes.add_edge(temp_nodes[0], temp_nodes[2], 2)
-    edges = graph_nodes.edges()
-    n0, edges0 = edges[0]
-    n1, edges1 = edges[1]
-    n2, edges2 = edges[2]
-    assert n1 == temp_nodes[0]
-    assert temp_nodes[1] in edges0
-
-
 def test_edges(graph_nodes, temp_nodes):
-    assert len(graph_nodes.edges()) == 0
+    assert len(graph_nodes.edges()) == 4
     graph_nodes.add_edge(temp_nodes[0], temp_nodes[1], 1)
-    assert (temp_nodes[0], temp_nodes[1]) in graph_nodes.edges()
-    assert (temp_nodes[1], temp_nodes[0]) not in graph_nodes.edges()
-    graph_nodes.add_edge(temp_nodes[2], temp_nodes[1], 1)
-    assert (temp_nodes[2], temp_nodes[1]) in graph_nodes.edges()
-    graph_nodes.add_edge(temp_nodes[1], temp_nodes[2], 1)
-    assert (temp_nodes[1], temp_nodes[2]) in graph_nodes.edges()
+    assert (temp_nodes[0], {temp_nodes[1]: 1}) in graph_nodes.edges()
+    assert (temp_nodes[1], {temp_nodes[0]: 1}) not in graph_nodes.edges()
+    graph_nodes.add_edge(temp_nodes[2], temp_nodes[1], 5)
+    assert (temp_nodes[2], {temp_nodes[1]: 5}) in graph_nodes.edges()
+    graph_nodes.add_edge(temp_nodes[1], temp_nodes[2], 2)
+    assert (temp_nodes[1], {temp_nodes[2]: 2}) in graph_nodes.edges()
     graph_nodes.add_edge(temp_nodes[1], 'b', 1)
     assert graph_nodes.has_node('b')
-    assert (temp_nodes[1], 'b') in graph_nodes.edges()
+    assert ('b', {}) in graph_nodes.edges()
     graph_nodes.del_edge(temp_nodes[1], 'b')
     assert graph_nodes.has_node('b') is True
     assert (temp_nodes[1], 'b') not in graph_nodes.edges()
