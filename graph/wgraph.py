@@ -49,7 +49,10 @@ class Graph(object):
         KeyError.
         """
         for node, e in self._data.iteritems():
-            e.pop(n)
+            try:
+                del e[n]
+            except KeyError:
+                continue
         del self._data[n]
 
     def del_edge(self, n1, n2):
