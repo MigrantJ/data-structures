@@ -1,6 +1,9 @@
 # data-structures
 Sample code for a number of classic data structures implemented in Python
 
+## Build Status
+master: [![Build Status](https://travis-ci.org/MigrantJ/data-structures.svg?branch=master)](https://travis-ci.org/MigrantJ/data-structures) 
+
 ##linked_list
 ###Collaborators
 - Jim Grant
