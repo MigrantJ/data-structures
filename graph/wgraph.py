@@ -24,8 +24,7 @@ class Graph(object):
         """
         edgelist = []
         for node, others in self._data.iteritems():
-            for o in others:
-                edgelist.append((node, o))
+            edgelist.append((node, others))
         return edgelist
 
     def add_node(self, n):
