@@ -37,3 +37,8 @@ modeling a series of lego blocks, with the desire to either put a new block on
 top, or put the entire stack on top of another block. Any model that needs to 
 build elements "out from the middle", instead of from one end or another, is
 an ideal use case.
+
+## graph
+###Collaborators
+- Jim Grant
+- Johnson Jew
