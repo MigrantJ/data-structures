@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 import pytest
 from wgraph import Graph
-from wgraph import Node
+from graph import Node
+
 
 @pytest.fixture()
 def empty_graph():
@@ -24,6 +25,7 @@ def graph_nodes(temp_nodes):
     for nodes in temp_nodes:
         graph.add_node(nodes)
     return graph
+
 
 @pytest.fixture()
 def one_node_graph(temp_nodes, empty_graph):
@@ -70,6 +72,65 @@ def branch_graph_and_nodes(empty_graph):
     empty_graph.add_edge(nb, nf, 1)
     empty_graph.add_edge(nc, nf, 1)
     empty_graph.add_edge(nd, ng, 1)
+    return empty_graph, [na, nb, nc, nd, ne, nf, ng]
+
+
+@pytest.fixture()
+def simple_path_graph(empty_graph):
+    na = Node('a')
+    nb = Node('b')
+    nc = Node('c')
+    nd = Node('d')
+    ne = Node('e')
+    nf = Node('f')
+    ng = Node('g')
+    empty_graph.add_edge(na, nb, 1)
+    empty_graph.add_edge(nb, nc, 1)
+    empty_graph.add_edge(nc, nd, 1)
+    empty_graph.add_edge(nd, ne, 1)
+    empty_graph.add_edge(ne, nf, 1)
+    empty_graph.add_edge(nf, ng, 1)
+    empty_graph.add_edge(na, ng, 15)
+    return empty_graph, [na, nb, nc, nd, ne, nf, ng]
+
+
+@pytest.fixture()
+def circle_path_graph(empty_graph):
+    na = Node('a')
+    nb = Node('b')
+    nc = Node('c')
+    nd = Node('d')
+    ne = Node('e')
+    nf = Node('f')
+    ng = Node('g')
+    empty_graph.add_edge(na, nb, 1)
+    empty_graph.add_edge(nb, nc, 1)
+    empty_graph.add_edge(nc, nd, 1)
+    empty_graph.add_edge(nd, ne, 1)
+    empty_graph.add_edge(ne, nf, 1)
+    empty_graph.add_edge(nf, ng, 1)
+    empty_graph.add_edge(na, ng, 15)
+    return empty_graph, [na, nb, nc, nd, ne, nf, ng]
+
+
+@pytest.fixture()
+def semi_path_graph(empty_graph):
+    na = Node('a')
+    nb = Node('b')
+    nc = Node('c')
+    nd = Node('d')
+    ne = Node('e')
+    nf = Node('f')
+    ng = Node('g')
+    empty_graph.add_edge(na, nb, 1)
+    empty_graph.add_edge(nb, nc, 1)
+    empty_graph.add_edge(nc, nd, 1)
+    empty_graph.add_edge(nd, ne, 1)
+    empty_graph.add_edge(ne, nf, 1)
+    empty_graph.add_edge(nf, ng, 1)
+    empty_graph.add_edge(na, nc, 2)
+    empty_graph.add_edge(nc, ne, 3)
+    empty_graph.add_edge(ne, ng, 4)
     return empty_graph, [na, nb, nc, nd, ne, nf, ng]
 
 
@@ -204,3 +265,73 @@ def test_branch_graph(branch_graph_and_nodes):
     assert bf_str.index('c') < bf_str.index('d')
     assert bf_str.index('c') < bf_str.index('e')
     assert bf_str.index('c') < bf_str.index('f')
+
+
+def test_dijkstra_simple_path_graph(simple_path_graph):
+    graph, nodes = simple_path_graph
+    assert graph.sp_dijkstra(nodes[0], nodes[6]) == [nodes[0], nodes[1],
+                                                     nodes[2], nodes[3],
+                                                     nodes[4], nodes[5],
+                                                     nodes[6]]
+    assert graph.sp_dijkstra(nodes[0], nodes[5]) == [nodes[0], nodes[1],
+                                                     nodes[2], nodes[3],
+                                                     nodes[4], nodes[5]]
+
+
+def test_bellmanford_simple_path_graph(simple_path_graph):
+    graph, nodes = simple_path_graph
+    assert graph.sp_bellmanford(nodes[0], nodes[6]) == [nodes[0], nodes[1],
+                                                        nodes[2], nodes[3],
+                                                        nodes[4], nodes[5],
+                                                        nodes[6]]
+    assert graph.sp_bellmanford(nodes[0], nodes[5]) == [nodes[0], nodes[1],
+                                                        nodes[2], nodes[3],
+                                                        nodes[4], nodes[5]]
+
+
+def test_dijkstra_circle_path_graph(circle_path_graph):
+    graph, nodes = circle_path_graph
+    assert graph.sp_dijkstra(nodes[0], nodes[6]) == [nodes[0], nodes[1],
+                                                     nodes[2], nodes[3],
+                                                     nodes[4], nodes[5],
+                                                     nodes[6]]
+    assert graph.sp_dijkstra(nodes[0], nodes[5]) == [nodes[0], nodes[1],
+                                                     nodes[2], nodes[3],
+                                                     nodes[4], nodes[5]]
+
+
+def test_bellmanford_circle_path_graph(circle_path_graph):
+    graph, nodes = circle_path_graph
+    assert graph.sp_bellmanford(nodes[0], nodes[6]) == [nodes[0], nodes[1],
+                                                        nodes[2], nodes[3],
+                                                        nodes[4], nodes[5],
+                                                        nodes[6]]
+    assert graph.sp_bellmanford(nodes[0], nodes[5]) == [nodes[0], nodes[1],
+                                                        nodes[2], nodes[3],
+                                                        nodes[4], nodes[5]]
+
+
+def test_dijkstra_semi_path_graph(semi_path_graph):
+    graph, nodes = semi_path_graph
+    assert graph.sp_dijkstra(nodes[0], nodes[2]) == [nodes[0], nodes[2]]
+    assert graph.sp_dijkstra(nodes[0], nodes[4]) == [nodes[0], nodes[2],
+                                                     nodes[3], nodes[4]]
+    assert graph.sp_dijkstra(nodes[0], nodes[6]) == [nodes[0], nodes[2],
+                                                     nodes[3], nodes[4],
+                                                     nodes[5], nodes[6]]
+    assert graph.sp_dijkstra(nodes[0], nodes[5]) == [nodes[0], nodes[2],
+                                                     nodes[3], nodes[4],
+                                                     nodes[5]]
+
+
+def test_bellmanford_semi_path_graph(semi_path_graph):
+    graph, nodes = semi_path_graph
+    assert graph.sp_bellmanford(nodes[0], nodes[2]) == [nodes[0], nodes[2]]
+    assert graph.sp_bellmanford(nodes[0], nodes[4]) == [nodes[0], nodes[2],
+                                                        nodes[3], nodes[4]]
+    assert graph.sp_bellmanford(nodes[0], nodes[6]) == [nodes[0], nodes[2],
+                                                        nodes[3], nodes[4],
+                                                        nodes[5], nodes[6]]
+    assert graph.sp_bellmanford(nodes[0], nodes[5]) == [nodes[0], nodes[2],
+                                                        nodes[3], nodes[4],
+                                                        nodes[5]]
