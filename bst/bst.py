@@ -49,7 +49,18 @@ class Tree():
 
     def contains(self, value):
         # return true if value in tree, false if not
-        pass
+        if self._head is None:
+            return False
+
+        current = self._head
+        while current.value is not None:
+            if value < current.value:
+                current = current.left
+            elif value > current.value:
+                current = current.right
+            else:
+                return True
+        return False
 
     def size(self):
         # return total number of values stored in tree
