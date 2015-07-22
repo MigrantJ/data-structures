@@ -17,12 +17,20 @@ class Tree():
         n = Node(value)
         if self._head is None:
             self._head = n
+            self._size += 1
+            self._depth += 1
             return
 
         parent = None
         direction = 'left'
         current = self._head
-        depth = 0
+        depth = 1
+
+        if value < self._head.value:
+            self._balance += 1
+        elif value > self._head.value:
+            self._balance -= 1
+
         while current is not None:
             parent = current
             if n.value < current.value:
@@ -40,10 +48,8 @@ class Tree():
 
         if direction == 'left':
             parent.left = n
-            self._balance += 1
         else:
             parent.right = n
-            self._balance -= 1
 
         self._size += 1
 
@@ -53,7 +59,7 @@ class Tree():
             return False
 
         current = self._head
-        while current.value is not None:
+        while current is not None:
             if value < current.value:
                 current = current.left
             elif value > current.value:
