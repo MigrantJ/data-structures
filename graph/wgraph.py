@@ -99,3 +99,33 @@ class Graph(object):
             temp_node = temp_queue.dequeue()
             self.breadth_first_traversal(temp_node, return_set)
         return return_set
+
+    def sp_dijkstra(self, start, dest):
+        pass
+
+    def sp_bellmanford(self, source, dest, verts=None, edges=None):
+        verts = verts or self.nodes()
+        edges = edges or self.edges()
+        distance = {}
+        predecessor = {}
+
+        for v in verts:
+            if v is source:
+                distance.setdefault(v, 0)
+            else:
+                distance.setdefault(v, None)
+
+        for i in range(len(verts) - 1):
+            for start, d in edges:
+                for end, weight in d.items():
+                    if distance[end] is None or distance[start] + weight < distance[end]:
+                        distance[end] = distance[start] + weight
+                        predecessor[end] = start
+
+        current = dest
+        path = []
+        while current is not source:
+            path.append(current)
+            current = predecessor[current]
+        path.append(source)
+        return path[::-1]
