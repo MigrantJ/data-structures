@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from time import time
+
+
 class Node():
     def __init__(self, value):
         self.value = value
@@ -81,3 +86,26 @@ class Tree():
         # negative if more values on right
         # 0 if balanced
         return self._balance
+
+if __name__ == '__main__':
+    def fill_tree(l):
+        out = Tree()
+        for n in l:
+            out.insert(n)
+        return out
+
+    def worst_case_performance():
+        return fill_tree([1, 2, 3, 4, 5])
+
+    def best_case_performance():
+        return fill_tree([31, 12, 37, 5, 21])
+
+    t0 = time()
+    worst_case_performance()
+    tpy = time() - t0
+    print "Worst Case Performance {}".format(tpy)
+
+    t0 = time()
+    best_case_performance()
+    tpy = time() - t0
+    print "Best Case Performance {}".format(tpy)
