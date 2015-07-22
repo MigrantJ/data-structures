@@ -30,6 +30,15 @@ http://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
 - Jim Grant
 - Johnson Jew
 
+## bst
+###Collaborators
+- Jim Grant
+- Megan Slater
+
+a binary serach tree that contains methods to determine size, balance, and depth
+as well as methods to insert a new value and determine whether any particular
+value is contained within the tree.
+
 ###Use Cases
 A doubly-linked list should be used instead of a standard linked list whenever
 the data can be added or removed from either end. For example, if one were
