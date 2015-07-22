@@ -13,7 +13,7 @@ class Tree():
         self._balance = 0
 
     def insert(self, value):
-        # insert value into tree. if already present, ignored
+        """insert value into tree. if already present, ignored"""
         n = Node(value)
         if self._head is None:
             self._head = n
@@ -54,7 +54,7 @@ class Tree():
         self._size += 1
 
     def contains(self, value):
-        # return true if value in tree, false if not
+        """return true if value in tree, false if not"""
         if self._head is None:
             return False
 
@@ -69,15 +69,16 @@ class Tree():
         return False
 
     def size(self):
-        # return total number of values stored in tree
+        """return total number of values stored in tree"""
         return self._size
 
     def depth(self):
-        # return int of total number of tree levels
+        """return int of total number of tree levels"""
         return self._depth
 
     def balance(self):
-        # return positive int if more values on left
-        # negative if more values on right
-        # 0 if balanced
+        """return positive int if more values on left
+        negative if more values on right
+        0 if balanced
+        """
         return self._balance
