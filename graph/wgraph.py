@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from queue import Queue
-from graph import Node
 
 
 class Graph(object):
@@ -100,32 +99,55 @@ class Graph(object):
             self.breadth_first_traversal(temp_node, return_set)
         return return_set
 
-    def sp_dijkstra(self, start, dest):
-        pass
+    def sp_dijkstra(self, source, dest):
+        distance = {source: 0}
+        previous = {source: None}
+        unvisited = set()
+        edges = {k: v for k, v in self.edges()}
 
-    def sp_bellmanford(self, source, dest, verts=None, edges=None):
-        verts = verts or self.nodes()
-        edges = edges or self.edges()
-        distance = {}
-        predecessor = {}
+        for n in self.nodes():
+            if n is not source:
+                distance[n] = float("inf")
+                previous[n] = None
+            unvisited.add(n)
 
-        for v in verts:
-            if v is source:
-                distance.setdefault(v, 0)
-            else:
-                distance.setdefault(v, None)
+        while len(unvisited) > 0:
+            start = min(unvisited, key=distance.get)
+            unvisited.discard(start)
 
-        for i in range(len(verts) - 1):
+            for end, weight in edges[start].items():
+                if distance[start] + weight < distance[end]:
+                    distance[end] = distance[start] + weight
+                    previous[end] = start
+
+        path = []
+        current = dest
+        while previous[current] is not None:
+            path.append(current)
+            current = previous[current]
+        return path[::-1]
+
+    def sp_bellmanford(self, source, dest):
+        nodes = self.nodes()
+        edges = self.edges()
+        distance = {source: 0}
+        previous = {}
+
+        for n in nodes:
+            if n is not source:
+                distance[n] = float("inf")
+
+        for i in range(len(nodes) - 1):
             for start, d in edges:
                 for end, weight in d.items():
-                    if distance[end] is None or distance[start] + weight < distance[end]:
+                    if distance[start] + weight < distance[end]:
                         distance[end] = distance[start] + weight
-                        predecessor[end] = start
+                        previous[end] = start
 
-        current = dest
         path = []
+        current = dest
         while current is not source:
             path.append(current)
-            current = predecessor[current]
+            current = previous[current]
         path.append(source)
         return path[::-1]
