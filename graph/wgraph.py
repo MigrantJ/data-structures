@@ -125,6 +125,7 @@ class Graph(object):
         while previous[current] is not None:
             path.append(current)
             current = previous[current]
+        path.append(source)
         return path[::-1]
 
     def sp_bellmanford(self, source, dest):
