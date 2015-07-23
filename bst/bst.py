@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from time import time
+from queue import Queue
 
 
 class Node():
@@ -9,13 +10,24 @@ class Node():
         self.left = None
         self.right = None
 
+    def __repr__(self):
+        return 'Node: ' + str(self.value)
+
+    def depth(self):
+        left_depth = self.left.depth() if self.left else 0
+        right_depth = self.right.depth() if self.right else 0
+        return max(left_depth, right_depth) + 1
+
+    def balance(self):
+        left_depth = self.left.depth() if self.left else 0
+        right_depth = self.right.depth() if self.right else 0
+        return left_depth - right_depth
+
 
 class Tree():
     def __init__(self):
         self._head = None
         self._size = 0
-        self._depth = 0
-        self._balance = 0
 
     def insert(self, value):
         """insert value into tree. if already present, ignored"""
@@ -23,33 +35,23 @@ class Tree():
         if self._head is None:
             self._head = n
             self._size += 1
-            self._depth += 1
             return
 
         parent = None
         direction = 'left'
         current = self._head
-        depth = 1
-
-        if value < self._head.value:
-            self._balance += 1
-        elif value > self._head.value:
-            self._balance -= 1
 
         while current is not None:
+            if n.value == current.value:
+                return
             parent = current
+
             if n.value < current.value:
                 current = current.left
                 direction = 'left'
             elif n.value > current.value:
                 current = current.right
                 direction = 'right'
-            else:
-                return
-            depth += 1
-
-        if depth > self._depth:
-            self._depth = depth
 
         if direction == 'left':
             parent.left = n
@@ -60,17 +62,15 @@ class Tree():
 
     def contains(self, value):
         """return true if value in tree, false if not"""
-        if self._head is None:
-            return False
 
         current = self._head
         while current is not None:
-            if value < current.value:
-                current = current.left
-            elif value > current.value:
-                current = current.right
-            else:
+            if value == current.value:
                 return True
+            elif value < current.value:
+                current = current.left
+            else:
+                current = current.right
         return False
 
     def size(self):
@@ -79,14 +79,58 @@ class Tree():
 
     def depth(self):
         """return int of total number of tree levels"""
-        return self._depth
+        return self._head.depth() if self._head else 0
 
     def balance(self):
         """return positive int if more values on left
         negative if more values on right
         0 if balanced
         """
-        return self._balance
+        return self._head.balance() if self._head else 0
+
+    def in_order(self, node=None):
+        node = node or self._head
+        if node.left is not None:
+            for n in self.in_order(node.left):
+                yield n
+        yield node
+        if node.right is not None:
+            for n in self.in_order(node.right):
+                yield n
+
+    def pre_order(self, node=None):
+        node = node or self._head
+        yield node
+        if node.left is not None:
+            for n in self.pre_order(node.left):
+                yield n
+        if node.right is not None:
+            for n in self.pre_order(node.right):
+                yield n
+
+    def post_order(self, node=None):
+        node = node or self._head
+        if node.left is not None:
+            for n in self.post_order(node.left):
+                yield n
+        if node.right is not None:
+            for n in self.post_order(node.right):
+                yield n
+        yield node
+
+    def breadth_first(self):
+        q = Queue()
+        q.enqueue(self._head)
+        try:
+            while True:
+                node = q.dequeue()
+                yield node
+                if node.left is not None:
+                    q.enqueue(node.left)
+                if node.right is not None:
+                    q.enqueue(node.right)
+        except LookupError:
+            pass
 
 if __name__ == '__main__':
     def fill_tree(l):
