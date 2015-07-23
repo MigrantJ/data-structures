@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from time import time
+from queue import Queue
 
 
 class Node():
@@ -8,6 +9,9 @@ class Node():
         self.value = value
         self.left = None
         self.right = None
+
+    def __repr__(self):
+        return 'Node: ' + str(self.value)
 
     def depth(self):
         left_depth = self.left.depth() if self.left else 0
@@ -83,6 +87,50 @@ class Tree():
         0 if balanced
         """
         return self._head.balance() if self._head else 0
+
+    def in_order(self, node=None):
+        node = node or self._head
+        if node.left is not None:
+            for n in self.in_order(node.left):
+                yield n
+        yield node
+        if node.right is not None:
+            for n in self.in_order(node.right):
+                yield n
+
+    def pre_order(self, node=None):
+        node = node or self._head
+        yield node
+        if node.left is not None:
+            for n in self.pre_order(node.left):
+                yield n
+        if node.right is not None:
+            for n in self.pre_order(node.right):
+                yield n
+
+    def post_order(self, node=None):
+        node = node or self._head
+        if node.left is not None:
+            for n in self.post_order(node.left):
+                yield n
+        if node.right is not None:
+            for n in self.post_order(node.right):
+                yield n
+        yield node
+
+    def breadth_first(self):
+        q = Queue()
+        q.enqueue(self._head)
+        try:
+            while True:
+                node = q.dequeue()
+                yield node
+                if node.left is not None:
+                    q.enqueue(node.left)
+                if node.right is not None:
+                    q.enqueue(node.right)
+        except LookupError:
+            pass
 
 if __name__ == '__main__':
     def fill_tree(l):

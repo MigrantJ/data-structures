@@ -66,3 +66,31 @@ def test_balance(tree, right_unbal_vals, left_unbal_vals, bal_vals):
     assert right_unbal_vals.balance() == -3
     assert left_unbal_vals.balance() == 1
     assert bal_vals.balance() == 0
+
+
+def test_pre_order(two_levels, bal_vals):
+    two_level_list = [n.value for n in list(two_levels.pre_order())]
+    assert two_level_list == [15, 10, 20]
+    bal_val_list = [n.value for n in list(bal_vals.pre_order())]
+    assert bal_val_list == [31, 12, 5, 21, 37, 35, 77]
+
+
+def test_in_order(two_levels, bal_vals):
+    two_level_list = [n.value for n in list(two_levels.in_order())]
+    assert two_level_list == [10, 15, 20]
+    bal_val_list = [n.value for n in list(bal_vals.in_order())]
+    assert bal_val_list == [5, 12, 21, 31, 35, 37, 77]
+
+
+def test_post_order(two_levels, bal_vals):
+    two_level_list = [n.value for n in list(two_levels.post_order())]
+    assert two_level_list == [10, 20, 15]
+    bal_val_list = [n.value for n in list(bal_vals.post_order())]
+    assert bal_val_list == [5, 21, 12, 35, 77, 37, 31]
+
+
+def test_breadth_first(two_levels, bal_vals):
+    two_level_list = [n.value for n in list(two_levels.breadth_first())]
+    assert two_level_list == [15, 10, 20]
+    bal_val_list = [n.value for n in list(bal_vals.breadth_first())]
+    assert bal_val_list == [31, 12, 37, 5, 21, 35, 77]
