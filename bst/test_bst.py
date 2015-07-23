@@ -20,7 +20,7 @@ def right_unbal_vals():
 
 @pytest.fixture()
 def left_unbal_vals():
-    return fill_tree([11, 6, 19, 4, 8, 17, 43, 5, 10, 31, 49, 1])
+    return fill_tree([11, 6, 19, 4, 8, 17, 43, 5, 10])
 
 
 @pytest.fixture()
@@ -52,16 +52,17 @@ def test_size(tree, two_levels, bal_vals):
     assert bal_vals.size() == 7
 
 
-def test_depth(tree, two_levels, bal_vals):
+def test_depth(tree, two_levels, bal_vals, right_unbal_vals):
     assert tree.depth() == 0
     tree.insert(1)
     assert tree.depth() == 1
     assert two_levels.depth() == 2
     assert bal_vals.depth() == 3
+    assert right_unbal_vals.depth() == 4
 
 
 def test_balance(tree, right_unbal_vals, left_unbal_vals, bal_vals):
     assert tree.balance() == 0
-    assert right_unbal_vals.balance() < 0
-    assert left_unbal_vals.balance() > 0
+    assert right_unbal_vals.balance() == -2
+    assert left_unbal_vals.balance() == 1
     assert bal_vals.balance() == 0

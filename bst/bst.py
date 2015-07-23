@@ -29,27 +29,32 @@ class Tree():
         parent = None
         direction = 'left'
         current = self._head
-        depth = 1
+        temp_depth = 1
+        balance_dir = 0
 
         if value < self._head.value:
-            self._balance += 1
+            balance_dir = 1
         elif value > self._head.value:
-            self._balance -= 1
+            balance_dir = -1
 
         while current is not None:
+            if n.value == current.value:
+                return
             parent = current
+
+            if bool(current.left) == bool(current.right):
+                temp_depth += 1
+
             if n.value < current.value:
                 current = current.left
                 direction = 'left'
             elif n.value > current.value:
                 current = current.right
                 direction = 'right'
-            else:
-                return
-            depth += 1
 
-        if depth > self._depth:
-            self._depth = depth
+        if temp_depth > self._depth:
+            self._depth = temp_depth
+            self._balance += balance_dir
 
         if direction == 'left':
             parent.left = n
@@ -60,17 +65,15 @@ class Tree():
 
     def contains(self, value):
         """return true if value in tree, false if not"""
-        if self._head is None:
-            return False
 
         current = self._head
         while current is not None:
-            if value < current.value:
-                current = current.left
-            elif value > current.value:
-                current = current.right
-            else:
+            if value == current.value:
                 return True
+            elif value < current.value:
+                current = current.left
+            else:
+                current = current.right
         return False
 
     def size(self):
