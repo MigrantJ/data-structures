@@ -37,7 +37,8 @@ http://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
 
 a binary serach tree that contains methods to determine size, balance, and depth
 as well as methods to insert a new value and determine whether any particular
-value is contained within the tree.
+value is contained within the tree.  Also has in order, pre order, post order and breadth first
+traversal methods.  Inspiration for depth and balance methods taken from [Jonathan Stallings](https://github.com/jonathanstallings/data-structures/blob/feature/bst/bst.py).
 
 ###Use Cases
 A doubly-linked list should be used instead of a standard linked list whenever
