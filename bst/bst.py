@@ -9,13 +9,21 @@ class Node():
         self.left = None
         self.right = None
 
+    def depth(self):
+        left_depth = self.left.depth() if self.left else 0
+        right_depth = self.right.depth() if self.right else 0
+        return max(left_depth, right_depth) + 1
+
+    def balance(self):
+        left_depth = self.left.depth() if self.left else 0
+        right_depth = self.right.depth() if self.right else 0
+        return left_depth - right_depth
+
 
 class Tree():
     def __init__(self):
         self._head = None
         self._size = 0
-        self._depth = 0
-        self._balance = 0
 
     def insert(self, value):
         """insert value into tree. if already present, ignored"""
@@ -23,27 +31,16 @@ class Tree():
         if self._head is None:
             self._head = n
             self._size += 1
-            self._depth += 1
             return
 
         parent = None
         direction = 'left'
         current = self._head
-        temp_depth = 1
-        balance_dir = 0
-
-        if value < self._head.value:
-            balance_dir = 1
-        elif value > self._head.value:
-            balance_dir = -1
 
         while current is not None:
             if n.value == current.value:
                 return
             parent = current
-
-            if bool(current.left) == bool(current.right):
-                temp_depth += 1
 
             if n.value < current.value:
                 current = current.left
@@ -51,10 +48,6 @@ class Tree():
             elif n.value > current.value:
                 current = current.right
                 direction = 'right'
-
-        if temp_depth > self._depth:
-            self._depth = temp_depth
-            self._balance += balance_dir
 
         if direction == 'left':
             parent.left = n
@@ -82,14 +75,14 @@ class Tree():
 
     def depth(self):
         """return int of total number of tree levels"""
-        return self._depth
+        return self._head.depth() if self._head else 0
 
     def balance(self):
         """return positive int if more values on left
         negative if more values on right
         0 if balanced
         """
-        return self._balance
+        return self._head.balance() if self._head else 0
 
 if __name__ == '__main__':
     def fill_tree(l):

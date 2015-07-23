@@ -58,11 +58,11 @@ def test_depth(tree, two_levels, bal_vals, right_unbal_vals):
     assert tree.depth() == 1
     assert two_levels.depth() == 2
     assert bal_vals.depth() == 3
-    assert right_unbal_vals.depth() == 4
+    assert right_unbal_vals.depth() == 5
 
 
 def test_balance(tree, right_unbal_vals, left_unbal_vals, bal_vals):
     assert tree.balance() == 0
-    assert right_unbal_vals.balance() == -2
+    assert right_unbal_vals.balance() == -3
     assert left_unbal_vals.balance() == 1
     assert bal_vals.balance() == 0
