@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from time import time
 from queue import Queue
+import random
 
 
 class Node():
@@ -22,6 +23,25 @@ class Node():
         left_depth = self.left.depth() if self.left else 0
         right_depth = self.right.depth() if self.right else 0
         return left_depth - right_depth
+
+    def _get_dot(self):
+        """recursively prepare a dot graph entry for this node."""
+        if self.left is not None:
+            yield "\t%s -> %s;" % (self.value, self.left.value)
+            for i in self.left._get_dot():
+                yield i
+        elif self.right is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
+        if self.right is not None:
+            yield "\t%s -> %s;" % (self.value, self.right.value)
+            for i in self.right._get_dot():
+                yield i
+        elif self.left is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
 
 
 class Tree():
@@ -132,6 +152,16 @@ class Tree():
         except LookupError:
             pass
 
+    def get_dot(self):
+        """return the tree with root 'self' as a dot graph for visualization"""
+        return "digraph G{\n%s}" % ("" if self._head.value is None else (
+            "\t%s;\n%s\n" % (
+                self._head.value,
+                "\n".join(self._head._get_dot())
+            )
+        ))
+
+
 if __name__ == '__main__':
     def fill_tree(l):
         out = Tree()
@@ -145,6 +175,10 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
+    tree = fill_tree([31, 12, 37, 5, 21])
+
+    with open('tree_dot.gv', 'w') as fh:
+        fh.write(tree.get_dot())
     t0 = time()
     worst_case_performance()
     tpy = time() - t0
