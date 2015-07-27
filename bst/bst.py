@@ -116,6 +116,8 @@ class Tree():
                 node.parent.left = to_replace
             else:
                 node.parent.right = to_replace
+            if to_replace is not None:
+                to_replace.parent = node.parent
             node.parent = None
         else:
             self._head = to_replace
@@ -128,20 +130,25 @@ class Tree():
             for i in gen:
                 if i.value == value:
                     node = i
+                    if node.value > self._head.value:
+                        newgen = [n for n in self.post_order(node)]
+                        to_replace = newgen[0]
                     break
                 to_replace = i
 
-            import pdb; pdb.set_trace()
             if node.left is None and node.right is None:
                 self._replace(node)
                 return None
 
+            if to_replace.parent.left is to_replace:
+                to_replace.parent.left = None
+            else:
+                to_replace.parent.right = None
             self._replace(node, to_replace)
-            try:
+            if to_replace.left is not None:
                 self._replace(to_replace, to_replace.left)
-                to_replace.left = node.left
-            except AttributeError:
-                pass
+            to_replace.left = node.left
+            to_replace.right = node.right
         return None
 
     def in_order(self, node=None):
@@ -212,7 +219,7 @@ if __name__ == '__main__':
         return fill_tree([31, 12, 37, 5, 21])
 
     tree = fill_tree([8, 10, 3, 16, 14, 47, 13])
-    tree.delete(10)
+    tree.delete(16)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
     t0 = time()
