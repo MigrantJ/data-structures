@@ -94,3 +94,27 @@ def test_breadth_first(two_levels, bal_vals):
     assert two_level_list == [15, 10, 20]
     bal_val_list = [n.value for n in list(bal_vals.breadth_first())]
     assert bal_val_list == [31, 12, 37, 5, 21, 35, 77]
+
+
+def test_delete_leaf(two_levels, bal_vals):
+    two_levels.delete(10)
+    assert two_levels.size() == 2
+    assert two_levels.depth() == 2
+    assert two_levels.balance() == -1
+
+    bal_vals.delete(21)
+    assert bal_vals.size() == 6
+    assert bal_vals.depth() == 3
+    assert bal_vals.balance() == 0
+
+
+def test_delete_one_descendant(right_unbal_vals):
+    right_unbal_vals.delete(14)
+    assert right_unbal_vals.depth() == 4
+    assert right_unbal_vals.balance() == -2
+    travlist = [n.value for n in right_unbal_vals.pre_order()]
+    assert travlist.index(16) < travlist.index(13)
+
+    right_unbal_vals.delete(10)
+    travlist = [n.value for n in right_unbal_vals.pre_order()]
+    assert travlist.index(13) < travlist.index(16)

@@ -110,7 +110,7 @@ class Tree():
         """
         return self._head.balance() if self._head else 0
 
-    def _replace(self, node, to_replace):
+    def _replace(self, node, to_replace=None):
         if node.parent is not None:
             if node.parent.left is node:
                 node.parent.left = to_replace
@@ -122,6 +122,7 @@ class Tree():
 
     def delete(self, value):
         if self.contains(value):
+            self._size -= 1
             gen = self.in_order()
             to_replace = None
             for i in gen:
@@ -129,10 +130,18 @@ class Tree():
                     node = i
                     break
                 to_replace = i
+
+            import pdb; pdb.set_trace()
+            if node.left is None and node.right is None:
+                self._replace(node)
+                return None
+
             self._replace(node, to_replace)
-            self._replace(to_replace, to_replace.left)
-            to_replace.left = node.left
-            to_replace.right = node.right
+            try:
+                self._replace(to_replace, to_replace.left)
+                to_replace.left = node.left
+            except AttributeError:
+                pass
         return None
 
     def in_order(self, node=None):
@@ -202,9 +211,8 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([6.0, 3.0, 1.0, 0.5, 2.0, 1.5, 2.5, 2.6, 2.2, 5.0, 4.0])
-    tree.delete(6.0)
-    print [n for n in tree.in_order()]
+    tree = fill_tree([8, 10, 3, 16, 14, 47, 13])
+    tree.delete(10)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
     t0 = time()
