@@ -146,7 +146,7 @@ class Tree():
             else:
                 to_replace.parent.right = to_replace.left
 
-            self._replace(del_node, to_replace)
+            self._reparent(del_node, to_replace)
             to_replace.left = del_node.left
             to_replace.right = del_node.right
 
