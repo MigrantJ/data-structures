@@ -111,6 +111,9 @@ class Tree():
         return self._head.balance() if self._head else 0
 
     def _reparent(self, node, to_replace=None):
+        """find the parent relationship of node and change that parent's child
+        to be to_replace
+        """
         if node.parent is not None:
             if node.parent.left is node:
                 node.parent.left = to_replace
@@ -118,6 +121,9 @@ class Tree():
                 node.parent.right = to_replace
 
     def delete(self, value):
+        """remove a node from the tree and change the hierarchy to maintain
+        BST logic
+        """
         for n in self.in_order():
             if n.value == value:
                 del_node = n
@@ -126,18 +132,18 @@ class Tree():
         else:
             return None
 
-        # IF NO CHILDREN
+        # if the node to delete has no children
         if del_node.left is None and del_node.right is None:
             self._reparent(del_node)
 
-        # IF ONE CHILD
+        # if it has one child, child takes its place
         elif del_node.left is None or del_node.right is None:
             if del_node.left is not None:
                 self._reparent(del_node, del_node.left)
             else:
                 self._reparent(del_node, del_node.right)
 
-        # IF TWO CHILDREN
+        # if it has two children, promote largest value on left side
         else:
             to_replace = [n for n in self.in_order(del_node.left)][-1]
             to_replace.left.parent = to_replace.parent
