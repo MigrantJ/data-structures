@@ -123,33 +123,56 @@ class Tree():
             self._head = to_replace
 
     def delete(self, value):
-        if self.contains(value):
-            self._size -= 1
-            gen = self.in_order()
-            to_replace = None
-            for i in gen:
-                if i.value == value:
-                    node = i
-                    if node.value > self._head.value:
-                        newgen = [n for n in self.post_order(node)]
-                        to_replace = newgen[0]
-                    break
-                to_replace = i
+        for n in self.in_order():
+            if n.value == value:
+                del_node = n
+                self._size -= 1
+                break
+        else:
+            return None
 
-            if node.left is None and node.right is None:
-                self._replace(node)
-                return None
+        # IF NO CHILDREN
+        if del_node.left is None and del_node.right is None:
+            if del_node.parent is not None:
+                if del_node.parent.left is del_node:
+                    del_node.parent.left = None
+                else:
+                    del_node.parent.right = None
+            del_node.parent = None
 
-            if to_replace.parent.left is to_replace:
-                to_replace.parent.left = None
+        # IF ONE CHILD
+        elif del_node.left is None or del_node.right is None:
+            if del_node.left is not None:
+                if del_node.parent is not None:
+                    if del_node.parent.left is del_node:
+                        del_node.parent.left = del_node.left
+                    else:
+                        del_node.parent.right = del_node.left
             else:
-                to_replace.parent.right = None
-            self._replace(node, to_replace)
-            if to_replace.left is not None:
-                self._replace(to_replace, to_replace.left)
-            to_replace.left = node.left
-            to_replace.right = node.right
-        return None
+                if del_node.parent is not None:
+                    if del_node.parent.left is del_node:
+                        del_node.parent.left = del_node.right
+                    else:
+                        del_node.parent.right = del_node.right
+            del_node.parent = None
+
+        # IF TWO CHILDREN
+        else:
+            to_replace = [n for n in self.in_order(del_node.left)][-1]
+            to_replace.left.parent = to_replace.parent
+            if to_replace.parent.left is to_replace:
+                to_replace.parent.left = to_replace.left
+            else:
+                to_replace.parent.right = to_replace.left
+
+            if del_node.parent is not None:
+                if del_node.parent.left is del_node:
+                    del_node.parent.left = to_replace
+                else:
+                    del_node.parent.right = to_replace
+                to_replace.parent = del_node.parent
+            to_replace.left = del_node.left
+            to_replace.right = del_node.right
 
     def in_order(self, node=None):
         node = node or self._head

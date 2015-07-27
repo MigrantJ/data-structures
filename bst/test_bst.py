@@ -117,9 +117,11 @@ def test_delete_one_descendant(right_unbal_vals):
 
     right_unbal_vals.delete(10)
     travlist = [n.value for n in right_unbal_vals.pre_order()]
-    assert travlist.index(13) < travlist.index(16)
+    assert travlist.index(13) > travlist.index(16)
 
 
 def test_delete_two_descendant(right_unbal_vals):
     right_unbal_vals.delete(16)
-
+    travlist = [n.value for n in right_unbal_vals.pre_order()]
+    assert travlist.index(14) < travlist.index(13)
+    assert travlist.index(14) < travlist.index(47)
