@@ -10,6 +10,7 @@ class Node():
         self.value = value
         self.left = None
         self.right = None
+        self.parent = None
 
     def __repr__(self):
         return 'Node: ' + str(self.value)
@@ -79,6 +80,7 @@ class Tree():
             parent.right = n
 
         self._size += 1
+        n.parent = parent
 
     def contains(self, value):
         """return true if value in tree, false if not"""
@@ -107,6 +109,31 @@ class Tree():
         0 if balanced
         """
         return self._head.balance() if self._head else 0
+
+    def _replace(self, node, to_replace):
+        if node.parent is not None:
+            if node.parent.left is node:
+                node.parent.left = to_replace
+            else:
+                node.parent.right = to_replace
+            node.parent = None
+        else:
+            self._head = to_replace
+
+    def delete(self, value):
+        if self.contains(value):
+            gen = self.in_order()
+            to_replace = None
+            for i in gen:
+                if i.value == value:
+                    node = i
+                    break
+                to_replace = i
+            self._replace(node, to_replace)
+            self._replace(to_replace, to_replace.left)
+            to_replace.left = node.left
+            to_replace.right = node.right
+        return None
 
     def in_order(self, node=None):
         node = node or self._head
@@ -175,8 +202,9 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([31, 12, 37, 5, 21])
-
+    tree = fill_tree([6.0, 3.0, 1.0, 0.5, 2.0, 1.5, 2.5, 2.6, 2.2, 5.0, 4.0])
+    tree.delete(6.0)
+    print [n for n in tree.in_order()]
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
     t0 = time()
