@@ -110,30 +110,51 @@ class Tree():
         """
         return self._head.balance() if self._head else 0
 
-    def _replace(self, node, to_replace):
+    def _reparent(self, node, to_replace=None):
+        """find the parent relationship of node and change that parent's child
+        to be to_replace
+        """
         if node.parent is not None:
             if node.parent.left is node:
                 node.parent.left = to_replace
             else:
                 node.parent.right = to_replace
-            node.parent = None
-        else:
-            self._head = to_replace
 
     def delete(self, value):
-        if self.contains(value):
-            gen = self.in_order()
-            to_replace = None
-            for i in gen:
-                if i.value == value:
-                    node = i
-                    break
-                to_replace = i
-            self._replace(node, to_replace)
-            self._replace(to_replace, to_replace.left)
-            to_replace.left = node.left
-            to_replace.right = node.right
-        return None
+        """remove a node from the tree and change the hierarchy to maintain
+        BST logic
+        """
+        for n in self.in_order():
+            if n.value == value:
+                del_node = n
+                self._size -= 1
+                break
+        else:
+            return None
+
+        # if the node to delete has no children
+        if del_node.left is None and del_node.right is None:
+            self._reparent(del_node)
+
+        # if it has one child, child takes its place
+        elif del_node.left is None or del_node.right is None:
+            if del_node.left is not None:
+                self._reparent(del_node, del_node.left)
+            else:
+                self._reparent(del_node, del_node.right)
+
+        # if it has two children, promote largest value on left side
+        else:
+            to_replace = [n for n in self.in_order(del_node.left)][-1]
+            to_replace.left.parent = to_replace.parent
+            if to_replace.parent.left is to_replace:
+                to_replace.parent.left = to_replace.left
+            else:
+                to_replace.parent.right = to_replace.left
+
+            self._reparent(del_node, to_replace)
+            to_replace.left = del_node.left
+            to_replace.right = del_node.right
 
     def in_order(self, node=None):
         node = node or self._head
@@ -202,9 +223,8 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([6.0, 3.0, 1.0, 0.5, 2.0, 1.5, 2.5, 2.6, 2.2, 5.0, 4.0])
-    tree.delete(6.0)
-    print [n for n in tree.in_order()]
+    tree = fill_tree([8, 10, 3, 16, 14, 47, 13])
+    tree.delete(16)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
     t0 = time()
