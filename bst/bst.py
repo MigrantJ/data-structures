@@ -119,11 +119,17 @@ class Tree():
                 node.parent.left = to_replace
             else:
                 node.parent.right = to_replace
+            if to_replace is not None:
+                to_replace.parent = node.parent
+        else:
+            self._head = to_replace
+            self._head.parent = None
 
     def delete(self, value):
         """remove a node from the tree and change the hierarchy to maintain
         BST logic
         """
+        # see if the node is in the tree at all
         for n in self.in_order():
             if n.value == value:
                 del_node = n
@@ -146,7 +152,8 @@ class Tree():
         # if it has two children, promote largest value on left side
         else:
             to_replace = [n for n in self.in_order(del_node.left)][-1]
-            to_replace.left.parent = to_replace.parent
+            if to_replace.left is not None:
+                to_replace.left.parent = to_replace.parent
             if to_replace.parent.left is to_replace:
                 to_replace.parent.left = to_replace.left
             else:
@@ -155,6 +162,13 @@ class Tree():
             self._reparent(del_node, to_replace)
             to_replace.left = del_node.left
             to_replace.right = del_node.right
+
+            if to_replace.left is not None:
+                to_replace.left.parent = to_replace
+            if to_replace.right is not None:
+                to_replace.right.parent = to_replace
+
+        return None
 
     def in_order(self, node=None):
         node = node or self._head
@@ -223,8 +237,8 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([8, 10, 3, 16, 14, 47, 13])
-    tree.delete(16)
+    tree = fill_tree([31, 12, 37, 5, 21, 35, 77])
+    # tree.delete(16)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
     t0 = time()

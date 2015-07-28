@@ -125,3 +125,18 @@ def test_delete_two_descendant(right_unbal_vals):
     travlist = [n.value for n in right_unbal_vals.pre_order()]
     assert travlist.index(14) < travlist.index(13)
     assert travlist.index(14) < travlist.index(47)
+
+
+def test_delete_head(two_levels, bal_vals):
+    two_levels.delete(15)
+    assert two_levels._head.value == 10
+    assert two_levels._head.parent is None
+    assert two_levels._head.right.value == 20
+
+    bal_vals.delete(31)
+    assert bal_vals.size() == 6
+    assert bal_vals._head.value == 21
+    assert bal_vals._head.left.value == 12
+    assert bal_vals._head.left.parent.value == 21
+    assert bal_vals._head.right.value == 37
+    assert bal_vals._head.right.parent.value == 21
