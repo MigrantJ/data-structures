@@ -171,10 +171,10 @@ class Tree():
                     child._rotatelefttochild()
                     child = child.parent.parent
                     child._rotaterighttoparent()
-                elif child.balance() == 1:
+                elif child.balance() >= 0:
                     child._rotaterighttoparent()
             else:
-                if child.balance() == -1:
+                if child.balance() <= 0:
                     child._rotatelefttoparent()
                 elif child.balance() == 1:
                     child._rotaterighttochild()
@@ -242,8 +242,14 @@ class Tree():
 
         # if the node to delete has no children
         if del_node.left is None and del_node.right is None:
-            check = del_node.parent
+            parent = del_node.parent
             self._reparent(del_node)
+            if parent.right is None:
+                print "We are rebalancing on: " + str(parent.left)
+                self._rebalance(parent.left)
+            else:
+                print "We are rebalancing on: " + str(parent.right)
+                self._rebalance(parent.right)
 
         # if it has one child, child takes its place
         elif del_node.left is None or del_node.right is None:
@@ -340,8 +346,8 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([11, 6, 19, 4, 8, 17, 43, 5, 10])
-    # tree.delete(16)
+    tree = fill_tree([5, 3, 6, 4, 2])
+    tree.delete(6)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
     t0 = time()
