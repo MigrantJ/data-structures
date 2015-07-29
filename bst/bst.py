@@ -77,7 +77,6 @@ class Node():
             right.parent = node
 
     def _rotatelefttoparent(self):
-        # import pdb; pdb.set_trace()
         node = self
         parent = self.parent
         left = self.left
@@ -87,6 +86,12 @@ class Node():
             left.parent = parent
 
         node.parent = parent.parent
+        if node.parent is not None:
+            if node.parent.right is parent:
+                node.parent.right = node
+            else:
+                node.parent.left = node
+
         node.left = parent
         parent.parent = node
 
@@ -100,6 +105,12 @@ class Node():
             right.parent = parent
 
         node.parent = parent.parent
+        if node.parent is not None:
+            if node.parent.right is parent:
+                node.parent.right = node
+            else:
+                node.parent.left = node
+
         node.right = parent
         parent.parent = node
 
@@ -140,15 +151,14 @@ class Tree():
 
         self._size += 1
         n.parent = parent
-        self._rebalance(parent)
+        self._rebalance(n)
 
     def _rebalance(self, node):
-        child = None
-        parent = node
+        child = node
+        parent = node.parent
         while parent is not None:
             if abs(parent.balance()) == 2:
                 # we found an unbalanced subtree
-                # import pdb; pdb.set_trace()
                 break
             child = parent
             parent = parent.parent
@@ -330,7 +340,7 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([8, 10, 3, 16, 14, 47, 13])
+    tree = fill_tree([11, 6, 19, 4, 8, 17, 43, 5, 10])
     # tree.delete(16)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
