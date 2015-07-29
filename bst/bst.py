@@ -140,23 +140,26 @@ class Tree():
 
         self._size += 1
         n.parent = parent
-        self._rebalance(n)
+        self._rebalance(parent)
 
     def _rebalance(self, node):
-        child = node
-        parent = node.parent
-        try:
-            while abs(parent.balance()) < 2:
-                child = parent
-                parent = parent.parent
-        except AttributeError:
-            pass
+        child = None
+        parent = node
+        while parent is not None:
+            if abs(parent.balance()) == 2:
+                # we found an unbalanced subtree
+                # import pdb; pdb.set_trace()
+                break
+            child = parent
+            parent = parent.parent
+        else:
+            return
 
         if parent is not None:
             if child is parent.left:
                 if child.balance() == -1:
                     child._rotatelefttochild()
-                    child = child.parent
+                    child = child.parent.parent
                     child._rotaterighttoparent()
                 elif child.balance() == 1:
                     child._rotaterighttoparent()
@@ -165,7 +168,7 @@ class Tree():
                     child._rotatelefttoparent()
                 elif child.balance() == 1:
                     child._rotaterighttochild()
-                    child = child.parent
+                    child = child.parent.parent
                     child._rotatelefttoparent()
 
         if child.parent is None:
@@ -229,6 +232,7 @@ class Tree():
 
         # if the node to delete has no children
         if del_node.left is None and del_node.right is None:
+            check = del_node.parent
             self._reparent(del_node)
 
         # if it has one child, child takes its place
@@ -326,7 +330,7 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([5, 4, 3])
+    tree = fill_tree([8, 10, 3, 16, 14, 47, 13])
     # tree.delete(16)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
