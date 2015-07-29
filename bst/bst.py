@@ -44,6 +44,65 @@ class Node():
             yield "\tnull%s [shape=point];" % r
             yield "\t%s -> null%s;" % (self.value, r)
 
+    def _rotatelefttochild(self):
+        node = self  # 3
+        parent = self.parent  # 5
+        child = self.right  # 4
+        left = self.right.left  # 4's left child
+
+        parent.left = child
+        child.parent = parent
+
+        child.left = node
+        node.parent = child
+
+        node.right = left
+        if left is not None:
+            left.parent = node
+
+    def _rotaterighttochild(self):
+        node = self  # 8
+        parent = self.parent  # 6
+        child = self.left  # 7
+        right = self.left.right  # 7's right child
+
+        parent.right = child
+        child.parent = parent
+
+        child.right = node
+        node.parent = child
+
+        node.left = right
+        if right is not None:
+            right.parent = node
+
+    def _rotatelefttoparent(self):
+        # import pdb; pdb.set_trace()
+        node = self
+        parent = self.parent
+        left = self.left
+
+        parent.right = left
+        if left is not None:
+            left.parent = parent
+
+        node.parent = parent.parent
+        node.left = parent
+        parent.parent = node
+
+    def _rotaterighttoparent(self):
+        node = self
+        parent = self.parent
+        right = self.right
+
+        parent.left = right
+        if right is not None:
+            right.parent = parent
+
+        node.parent = parent.parent
+        node.right = parent
+        parent.parent = node
+
 
 class Tree():
     def __init__(self):
@@ -81,6 +140,36 @@ class Tree():
 
         self._size += 1
         n.parent = parent
+        self._rebalance(n)
+
+    def _rebalance(self, node):
+        child = node
+        parent = node.parent
+        try:
+            while abs(parent.balance()) < 2:
+                child = parent
+                parent = parent.parent
+        except AttributeError:
+            pass
+
+        if parent is not None:
+            if child is parent.left:
+                if child.balance() == -1:
+                    child._rotatelefttochild()
+                    child = child.parent
+                    child._rotaterighttoparent()
+                elif child.balance() == 1:
+                    child._rotaterighttoparent()
+            else:
+                if child.balance() == -1:
+                    child._rotatelefttoparent()
+                elif child.balance() == 1:
+                    child._rotaterighttochild()
+                    child = child.parent
+                    child._rotatelefttoparent()
+
+        if child.parent is None:
+            self._head = child
 
     def contains(self, value):
         """return true if value in tree, false if not"""
@@ -237,7 +326,7 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([31, 12, 37, 5, 21, 35, 77])
+    tree = fill_tree([5, 4, 3])
     # tree.delete(16)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
