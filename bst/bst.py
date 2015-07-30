@@ -45,10 +45,10 @@ class Node():
             yield "\t%s -> null%s;" % (self.value, r)
 
     def _rotatelefttochild(self):
-        node = self  # 3
-        parent = self.parent  # 5
-        child = self.right  # 4
-        left = self.right.left  # 4's left child
+        node = self
+        parent = self.parent
+        child = self.right
+        left = self.right.left
 
         parent.left = child
         child.parent = parent
@@ -61,10 +61,10 @@ class Node():
             left.parent = node
 
     def _rotaterighttochild(self):
-        node = self  # 8
-        parent = self.parent  # 6
-        child = self.left  # 7
-        right = self.left.right  # 7's right child
+        node = self
+        parent = self.parent
+        child = self.left
+        right = self.left.right
 
         parent.right = child
         child.parent = parent
@@ -157,7 +157,6 @@ class Tree():
         pivot = None
         parent = root.parent
         if root.balance() >= 2:
-            # import pdb; pdb.set_trace()
             pivot = root.left
             if pivot.balance() == -1:
                 pivot._rotatelefttochild()
@@ -166,7 +165,6 @@ class Tree():
             elif pivot.balance() >= 0:
                 pivot._rotaterighttoparent()
         elif root.balance() <= -2:
-            # import pdb; pdb.set_trace()
             pivot = root.right
             if pivot.balance() <= 0:
                 pivot._rotatelefttoparent()
@@ -340,16 +338,16 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([5, 3, 4])
-    # tree.delete(6)
+    tree = fill_tree([1, 2, 3, 4, 5, 6])
+    tree.delete(4)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
-    # t0 = time()
-    # worst_case_performance()
-    # tpy = time() - t0
-    # print "Worst Case Performance {}".format(tpy)
-    #
-    # t0 = time()
-    # best_case_performance()
-    # tpy = time() - t0
-    # print "Best Case Performance {}".format(tpy)
+    t0 = time()
+    worst_case_performance()
+    tpy = time() - t0
+    print "Worst Case Performance {}".format(tpy)
+
+    t0 = time()
+    best_case_performance()
+    tpy = time() - t0
+    print "Best Case Performance {}".format(tpy)
