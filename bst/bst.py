@@ -161,7 +161,7 @@ class Tree():
             pivot = root.left
             if pivot.balance() == -1:
                 pivot._rotatelefttochild()
-                pivot = pivot.parent.parent
+                pivot = pivot.parent
                 pivot._rotaterighttoparent()
             elif pivot.balance() >= 0:
                 pivot._rotaterighttoparent()
@@ -172,7 +172,7 @@ class Tree():
                 pivot._rotatelefttoparent()
             elif pivot.balance() == 1:
                 pivot._rotaterighttochild()
-                pivot = pivot.parent.parent
+                pivot = pivot.parent
                 pivot._rotatelefttoparent()
 
         if parent:
