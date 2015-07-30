@@ -151,38 +151,34 @@ class Tree():
 
         self._size += 1
         n.parent = parent
-        self._rebalance(n)
+        self._rebalance(n.parent)
 
-    def _rebalance(self, node):
-        child = node
-        parent = node.parent
-        while parent is not None:
-            if abs(parent.balance()) == 2:
-                # we found an unbalanced subtree
-                break
-            child = parent
-            parent = parent.parent
-        else:
-            return
+    def _rebalance(self, root):
+        pivot = None
+        parent = root.parent
+        if root.balance() >= 2:
+            # import pdb; pdb.set_trace()
+            pivot = root.left
+            if pivot.balance() == -1:
+                pivot._rotatelefttochild()
+                pivot = pivot.parent.parent
+                pivot._rotaterighttoparent()
+            elif pivot.balance() >= 0:
+                pivot._rotaterighttoparent()
+        elif root.balance() <= -2:
+            # import pdb; pdb.set_trace()
+            pivot = root.right
+            if pivot.balance() <= 0:
+                pivot._rotatelefttoparent()
+            elif pivot.balance() == 1:
+                pivot._rotaterighttochild()
+                pivot = pivot.parent.parent
+                pivot._rotatelefttoparent()
 
-        if parent is not None:
-            if child is parent.left:
-                if child.balance() == -1:
-                    child._rotatelefttochild()
-                    child = child.parent.parent
-                    child._rotaterighttoparent()
-                elif child.balance() >= 0:
-                    child._rotaterighttoparent()
-            else:
-                if child.balance() <= 0:
-                    child._rotatelefttoparent()
-                elif child.balance() == 1:
-                    child._rotaterighttochild()
-                    child = child.parent.parent
-                    child._rotatelefttoparent()
-
-        if child.parent is None:
-            self._head = child
+        if parent:
+            self._rebalance(parent)
+        elif pivot:
+            self._head = pivot
 
     def contains(self, value):
         """return true if value in tree, false if not"""
@@ -240,16 +236,11 @@ class Tree():
         else:
             return None
 
+        parent = del_node.parent
+
         # if the node to delete has no children
         if del_node.left is None and del_node.right is None:
-            parent = del_node.parent
             self._reparent(del_node)
-            if parent.right is None:
-                print "We are rebalancing on: " + str(parent.left)
-                self._rebalance(parent.left)
-            else:
-                print "We are rebalancing on: " + str(parent.right)
-                self._rebalance(parent.right)
 
         # if it has one child, child takes its place
         elif del_node.left is None or del_node.right is None:
@@ -276,6 +267,9 @@ class Tree():
                 to_replace.left.parent = to_replace
             if to_replace.right is not None:
                 to_replace.right.parent = to_replace
+
+        if parent is not None:
+            self._rebalance(parent)
 
         return None
 
@@ -346,16 +340,16 @@ if __name__ == '__main__':
     def best_case_performance():
         return fill_tree([31, 12, 37, 5, 21])
 
-    tree = fill_tree([5, 3, 6, 4, 2])
-    tree.delete(6)
+    tree = fill_tree([5, 3, 4])
+    # tree.delete(6)
     with open('tree_dot.gv', 'w') as fh:
         fh.write(tree.get_dot())
-    t0 = time()
-    worst_case_performance()
-    tpy = time() - t0
-    print "Worst Case Performance {}".format(tpy)
-
-    t0 = time()
-    best_case_performance()
-    tpy = time() - t0
-    print "Best Case Performance {}".format(tpy)
+    # t0 = time()
+    # worst_case_performance()
+    # tpy = time() - t0
+    # print "Worst Case Performance {}".format(tpy)
+    #
+    # t0 = time()
+    # best_case_performance()
+    # tpy = time() - t0
+    # print "Best Case Performance {}".format(tpy)
