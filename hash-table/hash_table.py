@@ -10,7 +10,8 @@ class HashTable():
     def __init__(self, size):
         self.size = size
         self.table = []
-        self.table.append([]*size)
+        for _ in range(size):
+            self.table.append([])
 
     def set(self, key, val):
         """If a non-string is provided, the 'set' method should raise an
@@ -18,6 +19,7 @@ class HashTable():
         given key"""
         if type(key) is not str:
             raise TypeError('You must pass a string as key.')
+        count = 0
         for item in self.table[self.hash(key)]:
             if item[0] == key:
                 item[1] = val
@@ -34,3 +36,6 @@ class HashTable():
     def hash(self, key):
         """should hash the key provided"""
         return reduce(lambda x, y: x+y, [ord(a) for a in key]) % self.size
+
+    def __repr__(self):
+        return str(self.table)
