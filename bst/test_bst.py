@@ -8,9 +8,24 @@ def fill_tree(l):
         out.insert(n)
     return out
 
+
 @pytest.fixture()
 def tree():
     return Tree()
+
+
+@pytest.fixture()
+def list_of_values():
+    return fill_tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+
+def tree_with_six_values():
+    return fill_tree([1, 2, 3, 4, 5, 6])
+
+
+@pytest.fixture()
+def nearly_unbalanced():
+    return fill_tree([4, 2, 8, 1, 3])
 
 
 @pytest.fixture()
@@ -58,12 +73,12 @@ def test_depth(tree, two_levels, bal_vals, right_unbal_vals):
     assert tree.depth() == 1
     assert two_levels.depth() == 2
     assert bal_vals.depth() == 3
-    assert right_unbal_vals.depth() == 5
+    assert right_unbal_vals.depth() == 4
 
 
 def test_balance(tree, right_unbal_vals, left_unbal_vals, bal_vals):
     assert tree.balance() == 0
-    assert right_unbal_vals.balance() == -3
+    assert right_unbal_vals.balance() == -1
     assert left_unbal_vals.balance() == 1
     assert bal_vals.balance() == 0
 
@@ -110,8 +125,8 @@ def test_delete_leaf(two_levels, bal_vals):
 
 def test_delete_one_descendant(right_unbal_vals):
     right_unbal_vals.delete(14)
-    assert right_unbal_vals.depth() == 4
-    assert right_unbal_vals.balance() == -2
+    assert right_unbal_vals.depth() == 3
+    assert right_unbal_vals.balance() == 0
     travlist = [n.value for n in right_unbal_vals.pre_order()]
     assert travlist.index(16) < travlist.index(13)
 
@@ -140,3 +155,41 @@ def test_delete_head(two_levels, bal_vals):
     assert bal_vals._head.left.parent.value == 21
     assert bal_vals._head.right.value == 37
     assert bal_vals._head.right.parent.value == 21
+
+
+def test_balance_on_insert(list_of_values):
+    assert list_of_values.depth() == 4
+    assert list_of_values._head.value is not 1
+    assert list_of_values.balance() == -1
+    list_of_values.insert(34)
+    list_of_values.insert(78)
+    assert list_of_values.balance() == 0
+
+
+def test_balance_on_delete(nearly_unbalanced):
+    nearly_unbalanced.delete(8)
+    assert nearly_unbalanced.balance() == 1
+    assert nearly_unbalanced._head.right.value == 4
+    assert nearly_unbalanced._head.left.value == 1
+
+
+def test_balance_on_delete_two_children(list_of_values):
+    list_of_values.delete(1)
+    list_of_values.delete(3)
+    assert list_of_values.balance() == -1
+
+
+def test_multiple_deletes(list_of_values):
+    to_delete = [4, 8, 7, 9, 1, 2]
+    for value in to_delete:
+        list_of_values.delete(value)
+    assert list_of_values.size() == 4
+    assert list_of_values.balance() == 1
+    assert list_of_values.depth() == 2
+
+
+def test_balance_on_delete_head(tree_with_six_values):
+    tree_with_six_values.delete(4)
+    assert tree_with_six_values._head.value is not 4
+    assert tree_with_six_values.size(0) == 5
+    assert tree_with_six_values.balance == -1
