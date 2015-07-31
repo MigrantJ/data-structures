@@ -17,8 +17,8 @@ class HashTable():
         """If a non-string is provided, the 'set' method should raise an
         appropriate Python exception. Should store the given val using the
         given key"""
-        if type(key) is not str:
-            raise TypeError('You must pass a string as key.')
+        if type(key) is not str and key != "":
+            raise TypeError('You must pass a string that is not empty as key.')
         count = 0
         for item in self.table[self.hash(key)]:
             if item[0] == key:
