@@ -33,17 +33,13 @@ http://stackoverflow.com/questions/49002/prefer-composition-over-inheritance
 ### Use Cases
 A doubly-linked list should be used instead of a standard linked list whenever
 the data can be added or removed from either end. For example, if one were
-modeling a series of lego blocks, with the desire to either put a new block on 
-top, or put the entire stack on top of another block. Any model that needs to 
+modeling a series of lego blocks, with the desire to either put a new block on
+top, or put the entire stack on top of another block. Any model that needs to
 build elements "out from the middle", instead of from one end or another, is
 an ideal use case.
 
 
 ## bst
-###Collaborators
-- Jim Grant
-- Megan Slater
-
 METHODS
 size():  returns number of nodes
 balance():  returns positive, negative or zero value as it relates to the balance of the tree.
@@ -88,11 +84,11 @@ Return an integer representing whether all open parentheses are closed in order 
 
 
 ## graph
-###Collaborators
+### Collaborators
 - Jim Grant
 - Johnson Jew
 
-###Path Algorithms
+### Path Algorithms
 sp_dijkstra - An implementation of Dijkstra's algorithm. Iterates through all 
 "unvisited" nodes, selecting the one with the lowest estimated weight each time
 to find the lowest-cost route to all other nodes in the graph. Once this is 
@@ -103,3 +99,15 @@ sp_bellmanford - An implementation of the Bellman-Ford algorithm. Unlike
 Dijkstra's algorithm, Bellman-Ford does not preferentially select nodes while 
 calculating weights. This makes it take longer, but allows it to process graphs
 which have negatively-weighted edges.
+
+
+## hash-table
+### Collaborators
+- Jim Grant
+- Megan Slater
+The hash table hashes and stores keys and their values for quick retreival.
+Methods include:
+
+get(key): returns the value stored with the given key
+set(key, val): stores the given val using the given key
+hash(key): hashes the key provided
