@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from queue import Queue
-from graph import Node
 
 
 class Graph(object):
@@ -99,3 +98,57 @@ class Graph(object):
             temp_node = temp_queue.dequeue()
             self.breadth_first_traversal(temp_node, return_set)
         return return_set
+
+    def sp_dijkstra(self, source, dest):
+        distance = {source: 0}
+        previous = {source: None}
+        unvisited = set()
+        edges = {k: v for k, v in self.edges()}
+
+        for n in self.nodes():
+            if n is not source:
+                distance[n] = float("inf")
+                previous[n] = None
+            unvisited.add(n)
+
+        while len(unvisited) > 0:
+            start = min(unvisited, key=distance.get)
+            unvisited.discard(start)
+
+            for end, weight in edges[start].items():
+                if distance[start] + weight < distance[end]:
+                    distance[end] = distance[start] + weight
+                    previous[end] = start
+
+        path = []
+        current = dest
+        while previous[current] is not None:
+            path.append(current)
+            current = previous[current]
+        path.append(source)
+        return path[::-1]
+
+    def sp_bellmanford(self, source, dest):
+        nodes = self.nodes()
+        edges = self.edges()
+        distance = {source: 0}
+        previous = {}
+
+        for n in nodes:
+            if n is not source:
+                distance[n] = float("inf")
+
+        for i in range(len(nodes) - 1):
+            for start, d in edges:
+                for end, weight in d.items():
+                    if distance[start] + weight < distance[end]:
+                        distance[end] = distance[start] + weight
+                        previous[end] = start
+
+        path = []
+        current = dest
+        while current is not source:
+            path.append(current)
+            current = previous[current]
+        path.append(source)
+        return path[::-1]

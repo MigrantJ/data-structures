@@ -85,3 +85,21 @@ Average Case: O(n^2)
 
 ## parenthetical.parens()
 Return an integer representing whether all open parentheses are closed in order in the provided input.
+
+
+## graph
+###Collaborators
+- Jim Grant
+- Johnson Jew
+
+###Path Algorithms
+sp_dijkstra - An implementation of Dijkstra's algorithm. Iterates through all 
+"unvisited" nodes, selecting the one with the lowest estimated weight each time
+to find the lowest-cost route to all other nodes in the graph. Once this is 
+done, it follows the chain backwards from the destination node to return the 
+path.
+
+sp_bellmanford - An implementation of the Bellman-Ford algorithm. Unlike 
+Dijkstra's algorithm, Bellman-Ford does not preferentially select nodes while 
+calculating weights. This makes it take longer, but allows it to process graphs
+which have negatively-weighted edges.
