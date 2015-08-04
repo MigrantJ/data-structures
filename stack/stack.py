@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from linked_list import LinkedList
+from linkedlist.linked_list import LinkedList
 
 
 class Stack(object):

@@ -81,3 +81,7 @@ Average Case: O(n^2)
 ### References
 - [Pseudocode Algorithm](https://en.wikipedia.org/wiki/Insertion_sort)
 - [Timeit Reference](https://github.com/tlake/data-structures-mk2/blob/hashtable/structures/hash_table.py)
+
+
+## parenthetical.parens()
+Return an integer representing whether all open parentheses are closed in order in the provided input.
