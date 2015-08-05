@@ -71,10 +71,10 @@ worst_case_lomuto.reverse()
     '''
 
     print("Best Case Performance Random: " +
-          str(timeit("quicksort(best_case)",
+          str(timeit("quicksort(worst_case_hoare)",
                      setup=setup, number=100)))
     print("Worst Case Performance Random: " +
-          str(timeit("quicksort(worst_case_lomuto)", setup=setup,
+          str(timeit("quicksort(best_case)", setup=setup,
                      number=100)))
     print("Best Case Performance Lomuto: " +
           str(timeit("quicksort(best_case, lomuto)",
