@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 from random import randint
+from timeit import timeit
+import sys
 
 
 def rand_pivot(lst, lo, hi):
@@ -31,6 +33,7 @@ def hoare(lst, lo, hi):
             j -= 1
         if i < j:
             lst[i], lst[j] = lst[j], lst[i]
+            i += 1
         else:
             lst[i], lst[hi] = lst[hi], lst[i]
             return i
@@ -49,6 +52,26 @@ def lomuto(lst, lo, hi):
 
 
 if __name__ == '__main__':
-    lst = [1, 5, 4, 7, 9, 3, 65, 7, 2, 6]
-    quicksort(lst, lomuto)
-    print lst
+    sys.setrecursionlimit(5000)
+
+    setup = '''
+from __main__ import quicksort, lomuto, hoare
+import random
+best_case = [random.randint(0, 500) for x in range(500)]
+worst_case_hoare = [x for x in range(500)]
+worst_case_lomuto = [x for x in range(500)]
+worst_case_lomuto.reverse()
+    '''
+
+    print("Best Case Performance Lomuto: " +
+          str(timeit("quicksort(best_case, lomuto)",
+              setup=setup, number=1000)))
+    print("Worst Case Performance Lomuto: " +
+          str(timeit("quicksort(worst_case_lomuto, lomuto)", setup=setup,
+              number=1000)))
+    print("Best Case Performance Hoare: " +
+          str(timeit("quicksort(best_case, hoare)",
+              setup=setup, number=1000)))
+    print("Worst Case Performance Hoare: " +
+          str(timeit("quicksort(worst_case_hoare, hoare)", setup=setup,
+              number=1000)))
