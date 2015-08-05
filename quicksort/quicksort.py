@@ -1,12 +1,23 @@
 from __future__ import unicode_literals
+from random import randint
 
 
-def quicksort(lst, pivot_method, lo=0, hi=None):
+def rand_pivot(lst, lo, hi):
+    i = randint(lo, hi)
+    pivot = lst[i]
+    for j in range(lo, hi):
+        if lst[j] <= pivot:
+            i += 1
+            lst[i], lst[j] = lst[j], lst[i]
+    return i
+
+
+def quicksort(lst, pivot_method=rand_pivot, lo=0, hi=None):
     hi = len(lst) - 1 if hi is None else hi
     if lo < hi:
-        p = pivot_method(lst, lo, hi)
-        quicksort(lst, pivot_method, lo, p - 1)
-        quicksort(lst, pivot_method, p + 1, hi)
+        pvt = pivot_method(lst, lo, hi)
+        quicksort(lst, pivot_method, lo, pvt - 1)
+        quicksort(lst, pivot_method, pvt + 1, hi)
 
 
 def hoare(lst, lo, hi):
@@ -30,7 +41,7 @@ def lomuto(lst, lo, hi):
     i = lo - 1
     for j in range(lo, hi):
         if lst[j] <= pivot:
-            i = i + 1
+            i += 1
             lst[i], lst[j] = lst[j], lst[i]
     i += 1
     lst[i], lst[hi] = lst[hi], lst[i]
