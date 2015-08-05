@@ -5,13 +5,20 @@ import sys
 
 
 def rand_pivot(lst, lo, hi):
-    i = randint(lo, hi)
-    pivot = lst[i]
-    for j in range(lo, hi):
-        if lst[j] <= pivot:
-            i += 1
-            lst[i], lst[j] = lst[j], lst[i]
-    return i
+    pind = randint(lo, hi)
+    pval = lst[pind]
+    lind = lo
+    while lind <= hi:
+        if lind < pind and lst[lind] >= pval:
+            lst[lind], lst[pind] = lst[pind], lst[lind]
+            pind, lind = lind, lind + 1
+        elif lind > pind and lst[lind] <= pval:
+            lst[lind], lst[pind] = lst[pind], lst[lind]
+            pind, lind = lind, pind + 1
+        else:
+            lind += 1
+
+    return pind
 
 
 def quicksort(lst, pivot_method=rand_pivot, lo=0, hi=None):
@@ -55,7 +62,7 @@ if __name__ == '__main__':
     sys.setrecursionlimit(5000)
 
     setup = '''
-from __main__ import quicksort, lomuto, hoare
+from __main__ import quicksort, rand_pivot, lomuto, hoare
 import random
 best_case = [random.randint(0, 500) for x in range(500)]
 worst_case_hoare = [x for x in range(500)]
@@ -63,15 +70,21 @@ worst_case_lomuto = [x for x in range(500)]
 worst_case_lomuto.reverse()
     '''
 
+    print("Best Case Performance Random: " +
+          str(timeit("quicksort(best_case)",
+                     setup=setup, number=100)))
+    print("Worst Case Performance Random: " +
+          str(timeit("quicksort(worst_case_lomuto)", setup=setup,
+                     number=100)))
     print("Best Case Performance Lomuto: " +
           str(timeit("quicksort(best_case, lomuto)",
-              setup=setup, number=1000)))
+              setup=setup, number=100)))
     print("Worst Case Performance Lomuto: " +
           str(timeit("quicksort(worst_case_lomuto, lomuto)", setup=setup,
-              number=1000)))
+              number=100)))
     print("Best Case Performance Hoare: " +
           str(timeit("quicksort(best_case, hoare)",
-              setup=setup, number=1000)))
+              setup=setup, number=100)))
     print("Worst Case Performance Hoare: " +
           str(timeit("quicksort(worst_case_hoare, hoare)", setup=setup,
-              number=1000)))
+              number=100)))
