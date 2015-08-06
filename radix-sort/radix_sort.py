@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from timeit import timeit
+import sys
 
 
 def radix_sort(list_, radix=10):
@@ -32,3 +32,22 @@ def radix_sort(list_, radix=10):
 
             divisor *= radix
     return list_
+
+
+if __name__ == '__main__':
+    sys.setrecursionlimit(5000)
+    from timeit import timeit
+
+    setup = '''
+from __main__ import radix_sort
+import random
+worst_case = [random.randint(0, 9) for x in range(10000)]
+best_case = [random.randint(10000, 10010) for x in range(10000)]
+    '''
+
+    print("Best Case Performance: " +
+          str(timeit("radix_sort(worst_case)",
+                     setup=setup, number=1000)))
+    print("Worst Case Performance: " +
+          str(timeit("radix_sort(best_case)", setup=setup,
+                     number=1000)))
