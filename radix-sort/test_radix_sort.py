@@ -4,12 +4,12 @@ import pytest
 
 @pytest.fixture()
 def randlist():
-    return [4, 3, 8, 5, 0, 2, 56, 9, 68]
+    return [4, 3, 8, 5, 0, 2, 56, 9, 68, -1]
 
 
 @pytest.fixture()
 def randlist_sorted():
-    return [0, 2, 3, 4, 5, 8, 9, 56, 68]
+    return [-1, 0, 2, 3, 4, 5, 8, 9, 56, 68]
 
 
 def test_random_list(randlist, randlist_sorted):
