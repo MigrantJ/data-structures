@@ -18,13 +18,18 @@ def radix_sort(list_, radix=10):
     if len(negatives) > 0 and len(positives) > 0:
         list_ = radix_sort(negatives, radix * -1)[::-1] + radix_sort(positives)
     else:
-        while len(buckets) == 0 or len(buckets[0]) < len(list_):
+        found_max_length = False
+        while not found_max_length:
+            found_max_length = True
             buckets = []
             for _ in range(abs(radix)):
                 buckets.append([])
 
             for i in list_:
-                buckets[abs(i // divisor % radix)].append(i)
+                divided = i // divisor
+                if found_max_length and abs(divided) > 0:
+                    found_max_length = False
+                buckets[abs(divided % radix)].append(i)
 
             list_ = []
             for bucket in buckets:

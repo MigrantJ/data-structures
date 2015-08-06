@@ -40,3 +40,9 @@ def test_all_duplicates():
     lst = [1, 1, 1, 1]
     new_lst = r.radix_sort(lst)
     assert new_lst == [1, 1, 1, 1]
+
+
+def test_same_first_digit():
+    lst = [40, 30, 20, 10, 0]
+    new_lst = r.radix_sort(lst)
+    assert new_lst == [0, 10, 20, 30, 40]
